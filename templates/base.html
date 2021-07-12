@@ -1,0 +1,40 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="Description" content="{% block description %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block css %}{% endblock %}
+
+    <link href="{{ STATIC_URL }}css/style.css?id=03062018" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/icons.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      {% get_stocks %}
+
+      {% include 'navbar.html' %}
+
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div> <!--- container --->
+    </div>
+
+    {% include 'footer.html' %}
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ STATIC_URL }}js/jquery.flexslider-min.js"></script>
+    {% block script %}{% endblock %}
+    <script src="{{ STATIC_URL }}js/script.js?id=02042021"></script>
+    {% if not DEBUG %}
+    {% endif %}
+
+  </body>
+
+</html>

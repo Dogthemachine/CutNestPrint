@@ -1,0 +1,13 @@
+*.py[cod]
+.*.sw[a-z]
+*.un~
+*.log
+*.pot
+.env
+CutNestPrint/.env
+.idea
+*.sqlite3
+.bash_profile
+docker-compose.yaml
+.DS_Store
+/reference
