@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     'apps.nest',
+    'apps.cats',
 ]
 
 MIDDLEWARE = [
@@ -95,6 +96,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': env.str('NEST_DB_PATH'),
+    },
+    'cats': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': env.str('CATS_DB_PATH'),
     }
 }
 
