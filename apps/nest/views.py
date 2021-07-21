@@ -19,3 +19,23 @@ def main_page(request):
             # "description_tag": description_tag,
         },
     )
+
+
+def produce_page(request):
+
+
+
+    return render(
+        request,
+        "nest/produce_page.html",
+        {
+            # "category": category,
+            # "categories": categories,
+            # "fashion": fashion,
+            # "fashions": fashions,
+            # "items": items,
+            # "itm": itm,
+            # "title_tag": title_tag,
+            # "description_tag": description_tag,
+        },
+    )

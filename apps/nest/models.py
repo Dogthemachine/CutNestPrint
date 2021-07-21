@@ -3,6 +3,7 @@ from django_resized import ResizedImageField
 from django.utils.translation import gettext_lazy as _
 
 class Categories(models.Model):
+    cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
     name = models.CharField(_("name"), max_length=70)
     image = ResizedImageField(size=[300, 150], upload_to="icons/", blank=True)
     image_hover = ResizedImageField(
@@ -20,6 +21,7 @@ class Categories(models.Model):
 
 
 class Fashions(models.Model):
+    cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
     name = models.CharField(_("name"), max_length=70, default="No name")
     categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
     image = ResizedImageField(size=[300, 150], upload_to="icons/", blank=True)
@@ -36,6 +38,7 @@ class Fashions(models.Model):
 
 
 class Sizes(models.Model):
+    cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
     name = models.CharField(_("name"), max_length=20)
     categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
     description = models.TextField(_("description"), blank=True, default="")
@@ -51,9 +54,10 @@ class Sizes(models.Model):
 
 
 class Items(models.Model):
+    cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
     name = models.CharField(_("name"), max_length=250)
     fashions = models.ForeignKey(Fashions, on_delete=models.CASCADE)
-    image = ResizedImageField(size=[300, 300], upload_to="photos/",  blank=True)
+    image = ResizedImageField(size=[300, 300], upload_to="photos_items/",  blank=True)
     count_of_pieces = models.PositiveSmallIntegerField(_("count of pieces"), default=0)
     added = models.DateTimeField(_("added"))
 
@@ -79,3 +83,16 @@ class Pieces(models.Model):
 
     def __str__(self):
         return u"%s piece (%s)" % (self.items.name, self.sizes.name)
+
+
+
+class Produce_page(models.Model):
+    items = models.ForeignKey(Items, on_delete=models.CASCADE)
+    sizes = models.ForeignKey(Sizes, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("produce")
+        verbose_name_plural = _("produce")
+
+    def __str__(self):
+        return u"%s item (%s)" % (self.items.name, self.sizes.name)
