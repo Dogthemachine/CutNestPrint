@@ -49,6 +49,8 @@ INSTALLED_APPS = [
 
     'apps.nest',
     'apps.cats',
+    'apps.cron',
+    
 ]
 
 MIDDLEWARE = [
