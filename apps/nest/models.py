@@ -86,7 +86,7 @@ class Pieces(models.Model):
 
 
 
-class Produce_page(models.Model):
+class ProducePage(models.Model):
     items = models.ForeignKey(Items, on_delete=models.CASCADE)
     sizes = models.ForeignKey(Sizes, on_delete=models.CASCADE)
 
