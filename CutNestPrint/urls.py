@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.nest.views import main_page, produce_page, fashions_page, new_item, fashions_list
+from apps.nest.views import main_page, produce_page, fashions_page, new_item, items_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", main_page, name="main_page"),
     path("fashions/", fashions_page, name="fashions_page"),
     path("new/", new_item, name="new_item"),
-    path("fashions_list/<int:fashion_id>/", fashions_list, name="fashions_list"),
+    path("items_list/<int:fashion_id>/", items_list, name="items_list"),
     path("produce/", produce_page, name="produce_page"),
 ]

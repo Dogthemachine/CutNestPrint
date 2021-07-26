@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from apps.nest.models import Fashions
+from apps.nest.models import Fashions, Items
 
 def main_page(request):
 
@@ -38,8 +38,11 @@ def new_item(request):
     )
 
 
-def fashions_list(request, fashion_id):
+def items_list(request, fashion_id):
+
+    items = Items.objects.filter(fashions__id=fashion_id)
+
     return render(
         request,
-        "nest/fashions_list.html", {},
+        "nest/items_list.html", {'items': items},
     )

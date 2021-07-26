@@ -15,10 +15,10 @@
 <div class="row">
  {% for fashion in fashions %}
     <div class="col-3">
-     <h2 class="text-center">{{ MEDIA_URL }} --- {{ fashion.categories.name }}</h2>
+     <h2 class="text-center">{{ fashion.categories.name }}</h2>
    </div>
    <div class="col-3">
-     <a href="{% url 'fashions_list' fashion.id %}" >
+     <a href="{% url 'items_list' fashion.id %}" >
        <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ fashion.image }}">
      </a>fashion
    </div>
