@@ -8,7 +8,7 @@
 
 {% include 'nest/main_bar.html' %}
 
-<div class="row">
+<div class="row mt-5">
   <div class="col-4"><h1>fashions</h1></div>
 </div>
 
@@ -20,7 +20,7 @@
    <div class="col-3">
      <a href="{% url 'items_list' fashion.id %}" >
        <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ fashion.image }}">
-     </a>fashion
+     </a>
    </div>
    <div class="col-6">
      <h2 class="text-center">{{ fashion.name }}</h2>

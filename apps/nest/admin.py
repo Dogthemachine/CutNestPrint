@@ -1,18 +1,17 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 from apps.nest.models import Categories, Fashions, Items, Sizes, Pieces
 
 
-class CategoriesAdmin(TranslationAdmin):
+class CategoriesAdmin(admin.ModelAdmin):
     list_display = ('name', 'sequence',)
 
-class FashionsAdmin(TranslationAdmin):
+class FashionsAdmin(admin.ModelAdmin):
     list_display = ('name', 'sequence',)
 
 class SizesAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
-class ItemsAdmin(TranslationAdmin):
+class ItemsAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class PiecesAdmin(admin.ModelAdmin):

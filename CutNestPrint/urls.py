@@ -14,7 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
+
 from apps.nest.views import main_page, produce_page, fashions_page, new_item, items_list
 
 urlpatterns = [
@@ -24,4 +27,11 @@ urlpatterns = [
     path("new/", new_item, name="new_item"),
     path("items_list/<int:fashion_id>/", items_list, name="items_list"),
     path("produce/", produce_page, name="produce_page"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]

@@ -14,6 +14,8 @@ import os
 import environ
 from pathlib import Path
 
+gettext = lambda s: s
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -128,9 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -157,7 +159,3 @@ STATICFILES_DIRS = (
 LOCALE_PATHS = (
   env.str('NEST_LOCALE_PATH'),
 )
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
-MODELTRANSLATION_TRANSLATION_REGISTRY = 'CutNestPrint.translation'
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ru'
