@@ -52,6 +52,10 @@ class Sizes(models.Model):
     def __str__(self):
         return u"%s" % self.name
 
+    def get_sizes(self):
+
+        return ItemsSizes.objects.filter(items=self)
+
 
 class Items(models.Model):
     cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
@@ -70,9 +74,20 @@ class Items(models.Model):
         return u"%s (%s)" % (self.name, self.fashions.name)
 
 
-class Pieces(models.Model):
+class ItemsSizes(models.Model):
     items = models.ForeignKey(Items, on_delete=models.CASCADE)
     sizes = models.ForeignKey(Sizes, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("items sizes")
+        verbose_name_plural = _("items sizes")
+
+    def __str__(self):
+        return u"%s item (%s)" % (self.items.name, self.sizes.name)
+
+
+class Pieces(models.Model):
+    items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
     detail = models.FileField(upload_to='all_details/')
     contour = models.FileField(upload_to='all_contours/')
     image = ResizedImageField(size=[100, 100], upload_to="photos_pieces/",  blank=True)
@@ -85,10 +100,9 @@ class Pieces(models.Model):
         return u"%s piece (%s)" % (self.items.name, self.sizes.name)
 
 
-
 class ProducePage(models.Model):
-    items = models.ForeignKey(Items, on_delete=models.CASCADE)
-    sizes = models.ForeignKey(Sizes, on_delete=models.CASCADE)
+    items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
+    amount = models.PositiveSmallIntegerField(_("sequence"), default=0)
 
     class Meta:
         verbose_name = _("produce")
