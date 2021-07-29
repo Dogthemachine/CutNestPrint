@@ -47,3 +47,12 @@ class Items(models.Model):
     class Meta:
         db_table = "elephants_items"
         managed = False
+
+
+class Balance(models.Model):
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "elephants_balance"
+        managed = False

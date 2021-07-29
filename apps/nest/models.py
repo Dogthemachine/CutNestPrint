@@ -52,10 +52,6 @@ class Sizes(models.Model):
     def __str__(self):
         return u"%s" % self.name
 
-    def get_sizes(self):
-
-        return ItemsSizes.objects.filter(items=self)
-
 
 class Items(models.Model):
     cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
@@ -73,6 +69,9 @@ class Items(models.Model):
     def __str__(self):
         return u"%s (%s)" % (self.name, self.fashions.name)
 
+    def get_sizes(self):
+        return ItemsSizes.objects.filter(items=self)
+
 
 class ItemsSizes(models.Model):
     items = models.ForeignKey(Items, on_delete=models.CASCADE)
@@ -84,6 +83,12 @@ class ItemsSizes(models.Model):
 
     def __str__(self):
         return u"%s item (%s)" % (self.items.name, self.sizes.name)
+
+    def get_produce_amount(self):
+        try:
+            return ProducePage.objects.get(items_sizes=self).amount
+        except:
+            return None
 
 
 class Pieces(models.Model):
@@ -97,7 +102,7 @@ class Pieces(models.Model):
         verbose_name_plural = _("piece")
 
     def __str__(self):
-        return u"%s piece (%s)" % (self.items.name, self.sizes.name)
+        return u"%s piece (%s)" % (self.items_sizes.items.name, self.sizes.name)
 
 
 class ProducePage(models.Model):
@@ -109,4 +114,4 @@ class ProducePage(models.Model):
         verbose_name_plural = _("produce")
 
     def __str__(self):
-        return u"%s item (%s)" % (self.items.name, self.sizes.name)
+        return u"%s item (%s)" % (self.items_sizes.items.name, self.items_sizes.sizes.name)

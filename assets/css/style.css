@@ -6,3 +6,7 @@ html, body {
 .cn-cat-image {
     width: 80px;
 }
+
+.cnp-produce-amount {
+    color: red;
+}

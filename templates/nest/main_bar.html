@@ -1,7 +1,9 @@
 {% load i18n %}
+{% load nest %}
+
 <nav class="navbar fixed-top navbar-light bg-light">
   <a class="navbar-brand" href="{% url 'main_page' %}">{% trans 'To main page' %}</a>
   <div class="form-inline my-2 my-lg-0">
-    <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'produce_page' %}">{% trans 'To produce' %}</a>
+    <a class="btn btn-success my-2 my-sm-0" href="{% url 'produce_page' %}"><span class="badge badge-light">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
   </div>
 </nav>

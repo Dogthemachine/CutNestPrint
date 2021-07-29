@@ -1,11 +1,12 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from apps.nest.models import Categories, Fashions, Sizes, Items
+from apps.nest.models import Categories, Fashions, Sizes, Items, ItemsSizes
 from apps.cats.models import Categories as CatsCategories
 from apps.cats.models import Fashions as CatsFashions
 from apps.cats.models import Sizes as CatsSizes
 from apps.cats.models import Items as CatsItems
+from apps.cats.models import Balance as CatsBalance
 
 
 class Command(BaseCommand):
@@ -82,3 +83,14 @@ class Command(BaseCommand):
                 item.count_of_pieces = 0
                 item.added = cats_item.added
                 item.save()
+
+                for balances in CatsBalance.objects.using('cats').filter(item=cats_item):
+                    try:
+                        size = Sizes.objects.get(cats_id=balances.size.id)
+                    except Fashions.DoesNotExist:
+                        print('----- balances error ----', cats_size.category.name)
+                        continue
+                    items_sizes = ItemsSizes()
+                    items_sizes.items = item
+                    items_sizes.sizes = size
+                    items_sizes.save()

@@ -34,3 +34,41 @@ $(document).ajaxSend(function(event, xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     }
 });
+
+$(document).ready(function() {
+
+    $('.cnp-produce-add').on('click', function() {
+
+        var id_item_size = $(this).data('item_size-id');
+        var amount = $('#produce-amount-'+id_item_size).val();
+        if (amount != '') {
+            $.ajax({
+                url: '/produce-add/' + id_item_size + '/' + amount + '/',
+                type: 'post',
+                success: function(data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                    }
+                }
+            });
+        };
+    });
+
+    $('.cnp-produce-del').on('click', function() {
+
+        var id_item_size = $(this).data('item_size-id');
+        $.ajax({
+            url: '/produce-del/' + id_item_size + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+});
+

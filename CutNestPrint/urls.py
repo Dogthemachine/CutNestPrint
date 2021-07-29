@@ -18,7 +18,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.nest.views import main_page, produce_page, fashions_page, new_item, items_list
+from apps.nest.views import main_page, produce_page, fashions_page, new_item, items_list, produce_add, produce_del
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,8 @@ urlpatterns = [
     path("new/", new_item, name="new_item"),
     path("items_list/<int:fashion_id>/", items_list, name="items_list"),
     path("produce/", produce_page, name="produce_page"),
+    path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),
+    path("produce-del/<int:imagesize_id>/", produce_del, name="produce_del"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

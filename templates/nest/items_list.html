@@ -9,16 +9,48 @@
 {% include 'nest/main_bar.html' %}
 
 <div class="row mt-5">
-  <div class="col-4"><h1>items</h1></div>
+  <div class="col-4"><h1>{% trans 'items list' %}</h1></div>
 </div>
 
 <div class="row">
  {% for item in items %}
-    <div class="col-3">
-      <h3 class="text-center">{{ item.fashions.name }}</h3>
-    </div>
-    <div class="col-9">
-      <h3 class="text-center">{{ item.name }}</h3>
+    <div class="card mb-3" >
+      <div class="row no-gutters ">
+        <div class="col-4 p-3">
+          <img src="{{ MEDIA_URL }}{{ item.image }}" class="card-img" alt="">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <h3 class="card-title">{{ item.name }}</h3>
+            {% for size in item.get_sizes %}
+              <div class="row mb-3">
+              <div class="col-6 h4">
+                  {% trans 'Size:' %} {{ size.sizes.name }}
+                  {% if size.get_produce_amount %}
+                      <span class="cnp-produce-amount">{% trans 'In produce:' %} {{ size.get_produce_amount }}</span>
+                  {% endif %}
+              </div>
+              <div class=""col-2">
+                  <form class="d-flex">
+                    <input class="me-2" id="produce-amount-{{ size.id }}" type="number">
+                    <a class="btn btn-outline-success cnp-produce-add" data-item_size-id="{{ size.id }}" href='#'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-plus-fill" viewBox="0 0 16 16">
+                          <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z"/>
+                        </svg>
+                    </a>
+                    <a class="btn btn-outline-danger cnp-produce-del" data-item_size-id="{{ size.id }}"  href='#'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-minus-fill" viewBox="0 0 16 16">
+                          <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zM6 7.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1z"/>
+                        </svg>
+                    </a>
+                  </form>
+              </div>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
  {% endfor %}
 </div>
