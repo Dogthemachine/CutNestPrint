@@ -10,6 +10,9 @@ class Categories(models.Model):
         size=[300, 150], upload_to="icons/", blank=True
     )
     sequence = models.PositiveSmallIntegerField(_("sequence"), default=0)
+    showcase_displayed = models.BooleanField(_("showcase_displayed"), default=True)
+
+
 
     class Meta:
         ordering = ("sequence",)
@@ -27,6 +30,7 @@ class Fashions(models.Model):
     image = ResizedImageField(size=[300, 150], upload_to="icons/", blank=True)
     image_hover = ResizedImageField(size=[300, 150], upload_to="icons/", blank=True)
     sequence = models.PositiveSmallIntegerField(_("sequence"), default=0)
+    showcase_displayed = models.BooleanField(_("showcase_displayed"), default=True)
 
     class Meta:
         ordering = ("sequence",)

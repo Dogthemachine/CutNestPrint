@@ -9,21 +9,18 @@
 {% include 'nest/main_bar.html' %}
 
 <div class="row mt-5">
-  <div class="col-4"><h1>fashions</h1></div>
+  <div class="col-1" ><h1>fashions</h1></div>
 </div>
 
 <div class="row">
  {% for fashion in fashions %}
-    <div class="col-3">
-     <h2 class="text-center">{{ fashion.categories.name }}</h2>
-   </div>
-   <div class="col-3">
+   <div class="col-2">
      <a href="{% url 'items_list' fashion.id %}" >
        <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ fashion.image }}">
      </a>
    </div>
-   <div class="col-6">
-     <h2 class="text-center">{{ fashion.name }}</h2>
+   <div class="col-4">
+     <h2 class="text-left">{{ fashion.name }}</h2>
    </div>
  {% endfor %}
 </div>

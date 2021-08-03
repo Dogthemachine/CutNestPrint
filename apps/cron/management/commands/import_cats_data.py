@@ -64,8 +64,11 @@ class Command(BaseCommand):
                 size.description = cats_size.description
                 size.sequence = cats_size.sequence
                 size.save()
-
-        for cats_item in CatsItems.objects.using('cats').all():
+        item_name = ''
+        for cats_item in CatsItems.objects.using('cats').all().order_by('fashions','name'):
+            if item_name == cats_item.name:
+                continue
+            item_name = cats_item.name
             try:
                 Items.objects.get(cats_id=cats_item.id)
             except Items.DoesNotExist:

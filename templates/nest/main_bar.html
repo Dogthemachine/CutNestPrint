@@ -2,8 +2,13 @@
 {% load nest %}
 
 <nav class="navbar fixed-top navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'main_page' %}">{% trans 'To main page' %}</a>
   <div class="form-inline my-2 my-lg-0">
-    <a class="btn btn-success my-2 my-sm-0" href="{% url 'produce_page' %}"><span class="badge badge-light">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
+    <a class="btn btn-info btn-lg" href="{% url 'new_item' %}">{% trans 'New item' %}</a>
+  </div>
+   <div class="form-inline my-2 my-lg-0">
+    <a class="btn btn-success btn-lg" href="{% url 'produce_page' %}"><span class="badge badge-light">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
   </div>
 </nav>
+
+<!--<button type="button" class="btn btn-primary" style="display: block; margin-right: auto;">Текст кнопки</button>-->
+<!--<a type="button" class="btn btn-secondary btn-lg" href="{% url 'new_item' %}">{% trans 'New item' %}</a>-->

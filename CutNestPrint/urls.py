@@ -18,11 +18,11 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.nest.views import main_page, produce_page, fashions_page, new_item, items_list, produce_add, produce_del
+from apps.nest.views import produce_page, fashions_page, new_item, items_list, produce_add, produce_del
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", main_page, name="main_page"),
+    path("", fashions_page, name="main_page"),
     path("fashions/", fashions_page, name="fashions_page"),
     path("new/", new_item, name="new_item"),
     path("items_list/<int:fashion_id>/", items_list, name="items_list"),

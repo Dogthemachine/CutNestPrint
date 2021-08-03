@@ -25,7 +25,8 @@ def produce_page(request):
 
 def fashions_page(request):
 
-    fashions = Fashions.objects.all()
+    # fashions = Fashions.objects.all()
+    fashions = Fashions.objects.filter(showcase_displayed=True)
 
     return render(
         request,
