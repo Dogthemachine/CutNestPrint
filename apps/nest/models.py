@@ -113,6 +113,12 @@ class ProducePage(models.Model):
     items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
     amount = models.PositiveSmallIntegerField(_("sequence"), default=0)
 
+    def get_pieces(self):
+        try:
+            return Pieces.objects.filter(items_sizes=self.items_sizes)
+        except:
+            return None
+
     class Meta:
         verbose_name = _("produce")
         verbose_name_plural = _("produce")

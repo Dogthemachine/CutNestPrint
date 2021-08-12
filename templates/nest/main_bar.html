@@ -5,10 +5,10 @@
   <div class="form-inline my-2 my-lg-0">
     <a class="btn btn-info btn-lg" href="{% url 'new_item' %}">{% trans 'New item' %}</a>
   </div>
+  <div class="form-inline my-2 my-lg-0">
+    <a class="btn btn-default btn-lg" href="{% url 'main_page' %}">{% trans 'Fashions' %}</a>
+  </div>
    <div class="form-inline my-2 my-lg-0">
     <a class="btn btn-success btn-lg" href="{% url 'produce_page' %}"><span class="badge badge-light">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
   </div>
 </nav>
-
-<!--<button type="button" class="btn btn-primary" style="display: block; margin-right: auto;">Текст кнопки</button>-->
-<!--<a type="button" class="btn btn-secondary btn-lg" href="{% url 'new_item' %}">{% trans 'New item' %}</a>-->

@@ -17,9 +17,13 @@ def main_page(request):
 
 def produce_page(request):
 
+    produce_items = ProducePage.objects.all()
+
     return render(
         request,
-        "nest/produce_page.html", {},
+        "nest/produce_page.html", {
+            'produce_items': produce_items
+        },
     )
 
 
