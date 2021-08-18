@@ -70,5 +70,21 @@ $(document).ready(function() {
         });
     });
 
+    $('.cnp-produce-result').on('click', function() {
+
+        $.ajax({
+            url: '/produce_result/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+   });
+
 });
+
+
 

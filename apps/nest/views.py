@@ -5,6 +5,8 @@ from jsonview.decorators import json_view
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.nest.forms import ItemForm, SizeForm, PieceForm
 
+from django.conf import settings
+
 def main_page(request):
 
 
@@ -30,7 +32,6 @@ def produce_page(request):
 
 def fashions_page(request):
 
-    # fashions = Fashions.objects.all()
     fashions = Fashions.objects.filter(showcase_displayed=True)
 
     return render(
@@ -108,6 +109,22 @@ def item_edit(request, item_id, size_id):
         request,
         "nest/item_edit.html", {'item': item, 'item_form': item_form, 'size_form': size_form, 'piece_form': piece_form},
     )
+
+
+@json_view
+def produce_result(request):
+
+    print("PRIVET")
+    if request.method == "POST":
+        for item in ProducePage.objects.all():
+            print("trying to collect items:", item.id)
+            for piece in item.items_sizes.get_pieces():
+                print("trying to save piece with id:", piece.id)
+
+        return {"success": True}
+
+    else:
+        return {"success": False}
 
 
 @json_view

@@ -40,9 +40,7 @@
                   </form>
                 {% trans 'Pieces:  ' %}{{ item.items_sizes.items.count_of_pieces }}
                 {% for piece in item.items_sizes.get_pieces %}
-              <div class="row">
                   <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ piece.image }}">
-              </div>
                 {% endfor %}
           </div>
         </div>
@@ -50,6 +48,10 @@
     </div>
    </div>
  {% endfor %}
+
+<div class="col-12 p-3">
+    <a class="btn  btn-success btn-lg cnp-produce-result" href='#'>{% trans 'Result' %}</a>
+</div>
 
 
 {% endblock %}

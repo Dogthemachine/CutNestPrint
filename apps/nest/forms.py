@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.nest.models import Fashions, Sizes, Items
 
 
-class ItemForm(forms.ModelForm):
+class ItemForm(forms.Form):
     CHOICES = [(fashion.id, fashion.name) for fashion in Fashions.objects.filter(showcase_displayed=True)]
     name = forms.CharField(label=_('Item name'), max_length=250)
     fashion = forms.ChoiceField(label=_('Fashion'), widget=forms.Select, choices=CHOICES)
