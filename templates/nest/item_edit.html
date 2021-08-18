@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans 'Making cuts for produce clothes' %}{% endblock %}
+
+{% block content %}
+
+ <div class="row">
+
+    <div class="col-4"><h1>{% trans 'Edit item' %}</h1></div>
+    <div class="col-4"><h3>{{ item.name }}</h3></div>
+
+
+    <div class="col-4 p-3">
+        <img src="{{ MEDIA_URL }}{{ item.image }}" class="img-fluid p-3">
+    </div>
+
+    <div class="col-12">
+      <form method="POST">{% csrf_token %}
+        <div class="col-12">
+          {{ item_form.as_p }}
+          <button class="btn btn-primary btn-sm" name="edit_item" type="submit">{% trans 'Save item' %}</button>
+        </div>
+      </form>
+    </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-12 m-3">
+      <form method="POST">{% csrf_token %}
+        <div class="col-12">
+          {{ size_form }}
+          <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
+        </div>
+      </form>
+  </div>
+
+  <table class="table">
+
+    {% for size in item.get_sizes %}
+        <tr>
+        <td class="col-2">
+            <p><span class="h3">{{ size.sizes.name }}</span></p>
+
+            <p>
+              <form method="POST" enctype="multipart/form-data" action="{% url 'item_edit' item.id size.id %}">{% csrf_token %}
+                  {{ piece_form.as_p }}
+                  <button class="btn btn-primary btn-sm" name="piece" type="submit">{% trans 'Add piece' %}</button>
+              </form>
+            </p>
+
+          <p><a class="btn btn-outline-danger cnp-item-size-del" data-size-id="{{ size.sizes.id }}" data-item-id="{{ size.items.id }}" href='#'>
+               {% trans 'Delete size' %}
+            </a>
+          </p>
+
+        </td>
+        <td class="col-10">
+            <div class="row">
+                {% for piece in size.get_pieces %}
+                     <div class="col-2 m-3">
+                        <img class="rounded mx-auto d-block m-2" src="{{ MEDIA_URL }}{{ piece.image }}">
+                        <a class="btn mx-auto d-block btn-danger cnp-piece-del" data-piece-id="{{ piece.id }}"  href='#'>
+                            {% trans 'Delete piece' %}
+                        </a>
+                     </div>
+                {% endfor %}
+            </div>
+        </td>
+        </tr>
+    {% endfor %}
+
+  </table>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{{ STATIC_URL }}js/item_edit_script.js?id=02042021"></script>
+{% endblock %}

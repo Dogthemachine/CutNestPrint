@@ -49,6 +49,9 @@
 
             {% endfor %}
           </div>
+          <a class="btn btn-success btn-lg mb-3" data-item_size-id="{{ size.id }}"  href='{% url 'item_edit' item.id 0 %}'>
+            {% trans 'Edit item' %}
+          </a>
         </div>
       </div>
     </div>

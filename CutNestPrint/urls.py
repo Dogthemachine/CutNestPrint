@@ -18,7 +18,8 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.nest.views import produce_page, fashions_page, new_item, items_list, produce_add, produce_del
+from apps.nest.views import produce_page, fashions_page, new_item, items_list, produce_add, produce_del, item_edit, \
+    item_size_del, piece_del
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,9 @@ urlpatterns = [
     path("produce/", produce_page, name="produce_page"),
     path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),
     path("produce-del/<int:imagesize_id>/", produce_del, name="produce_del"),
+    path("item_edit/<int:item_id>/<int:size_id>/", item_edit, name="item_edit"),
+    path("item-size-del/<int:item_id>/<int:size_id>/", item_size_del, name="item_size_del"),
+    path("piece-del/<int:piece_id>/", piece_del, name="piece_del"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

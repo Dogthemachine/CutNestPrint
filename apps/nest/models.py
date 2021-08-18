@@ -1,6 +1,11 @@
 from django.db import models
 from django_resized import ResizedImageField
 from django.utils.translation import gettext_lazy as _
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from PIL import Image
+from io import BytesIO
+import sys
 
 class Categories(models.Model):
     cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
@@ -88,6 +93,9 @@ class ItemsSizes(models.Model):
     def __str__(self):
         return u"%s item (%s)" % (self.items.name, self.sizes.name)
 
+    def get_pieces(self):
+        return Pieces.objects.filter(items_sizes=self)
+
     def get_produce_amount(self):
         try:
             return ProducePage.objects.get(items_sizes=self).amount
@@ -106,18 +114,21 @@ class Pieces(models.Model):
         verbose_name_plural = _("piece")
 
     def __str__(self):
-        return u"%s piece (%s)" % (self.items_sizes.items.name, self.sizes.name)
+        return u"%s piece (%s)" % (self.items_sizes.items.name, self.items_sizes.sizes.name)
+
+    def save(self, *args, **kwargs):
+        if not self.detail._committed:
+            temp = BytesIO()
+            im = Image.open(self.detail.file)
+            im.save(temp, format="JPEG")
+            temp.seek(0)
+            self.image = InMemoryUploadedFile(temp, None, self.detail.file.name, 'image/jpeg', sys.getsizeof(temp), None)
+        super().save(*args, **kwargs)
 
 
 class ProducePage(models.Model):
     items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
     amount = models.PositiveSmallIntegerField(_("sequence"), default=0)
-
-    def get_pieces(self):
-        try:
-            return Pieces.objects.filter(items_sizes=self.items_sizes)
-        except:
-            return None
 
     class Meta:
         verbose_name = _("produce")

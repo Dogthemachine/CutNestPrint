@@ -48,9 +48,7 @@ class Command(BaseCommand):
                 fashion.save()
 
         for cats_size in CatsSizes.objects.using('cats').all():
-            try:
-                Sizes.objects.get(cats_id=cats_size.id)
-            except Sizes.DoesNotExist:
+            if not Sizes.objects.filter(name=cats_size.name):
                 print(cats_size.name)
                 try:
                     category = Categories.objects.get(cats_id=cats_size.categories.id)
@@ -65,7 +63,7 @@ class Command(BaseCommand):
                 size.sequence = cats_size.sequence
                 size.save()
         item_name = ''
-        for cats_item in CatsItems.objects.using('cats').all().order_by('fashions','name'):
+        for cats_item in CatsItems.objects.using('cats').all().order_by('fashions', 'name'):
             if item_name == cats_item.name:
                 continue
             item_name = cats_item.name
@@ -88,12 +86,11 @@ class Command(BaseCommand):
                 item.save()
 
                 for balances in CatsBalance.objects.using('cats').filter(item=cats_item):
-                    try:
-                        size = Sizes.objects.get(cats_id=balances.size.id)
-                    except Fashions.DoesNotExist:
+                    sizes = Sizes.objects.filter(name=balances.size.name)
+                    if not sizes:
                         print('----- balances error ----', cats_size.category.name)
                         continue
                     items_sizes = ItemsSizes()
                     items_sizes.items = item
-                    items_sizes.sizes = size
+                    items_sizes.sizes = sizes[0]
                     items_sizes.save()

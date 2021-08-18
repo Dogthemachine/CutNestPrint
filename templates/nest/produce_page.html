@@ -39,7 +39,7 @@
                     </a>
                   </form>
                 {% trans 'Pieces:  ' %}{{ item.items_sizes.items.count_of_pieces }}
-                {% for piece in item.get_pieces %}
+                {% for piece in item.items_sizes.get_pieces %}
               <div class="row">
                   <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ piece.image }}">
               </div>
