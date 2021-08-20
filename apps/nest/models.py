@@ -107,7 +107,7 @@ class Pieces(models.Model):
     items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
     detail = models.FileField(upload_to='all_details/')
     contour = models.FileField(upload_to='all_contours/')
-    image = ResizedImageField(size=[100, 100], upload_to="photos_pieces/",  blank=True)
+    image = models.FileField(upload_to="photos_pieces/",  blank=True)
 
     class Meta:
         verbose_name = _("piece")
@@ -120,9 +120,12 @@ class Pieces(models.Model):
         if not self.detail._committed:
             temp = BytesIO()
             im = Image.open(self.detail.file)
-            im.save(temp, format="JPEG")
-            temp.seek(0)
+            im.convert("RGB")
+            size = 100, 100
+            im.thumbnail(size, Image.ANTIALIAS)
+            im.save(temp, "JPEG", quality=100)
             self.image = InMemoryUploadedFile(temp, None, self.detail.file.name, 'image/jpeg', sys.getsizeof(temp), None)
+            temp.seek(0)
         super().save(*args, **kwargs)
 
 

@@ -1,11 +1,15 @@
 from django.shortcuts import get_object_or_404,render, redirect
 
 from jsonview.decorators import json_view
+from django.conf import settings
 
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.nest.forms import ItemForm, SizeForm, PieceForm
+from apps.nest.helpers import TIFF2SVG
 
-from django.conf import settings
+import os
+import re
+import shutil
 
 def main_page(request):
 
@@ -114,12 +118,24 @@ def item_edit(request, item_id, size_id):
 @json_view
 def produce_result(request):
 
-    print("PRIVET")
+    if os.listdir(settings.MEDIA_RESULT_IMG):
+        for file in os.listdir(settings.MEDIA_RESULT_IMG):
+            os.remove(os.path.join(settings.MEDIA_RESULT_IMG, file))
+    if os.listdir(settings.MEDIA_RESULT_CONTOUR):
+        for file in os.listdir(settings.MEDIA_RESULT_CONTOUR):
+            os.remove(os.path.join(settings.MEDIA_RESULT_CONTOUR, file))
+
+
     if request.method == "POST":
         for item in ProducePage.objects.all():
-            print("trying to collect items:", item.id)
             for piece in item.items_sizes.get_pieces():
-                print("trying to save piece with id:", piece.id)
+                shutil.copy(piece.detail.path, settings.MEDIA_RESULT_IMG)
+                if piece.contour:
+                    shutil.copy(piece.contour.path, settings.MEDIA_RESULT_CONTOUR)
+                else:
+                    save_svg_path = settings.MEDIA_RESULT_CONTOUR + re.findall('[/].*[.]', piece.detail.name)[0] + "svg"
+                    print(re.findall('[/].*[.]', piece.detail.name)[0])
+                    TIFF2SVG(piece.detail.path, save_svg_path)
 
         return {"success": True}
 

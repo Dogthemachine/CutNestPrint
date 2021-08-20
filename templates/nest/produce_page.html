@@ -39,9 +39,11 @@
                     </a>
                   </form>
                 {% trans 'Pieces:  ' %}{{ item.items_sizes.items.count_of_pieces }}
+                <div class="row">
                 {% for piece in item.items_sizes.get_pieces %}
-                  <img class="img-responsive img-circle cn-cat-image" src="{{ MEDIA_URL }}{{ piece.image }}">
+                  <img class="card h-100" src="{{ MEDIA_URL }}{{ piece.image }}">
                 {% endfor %}
+                </div>
           </div>
         </div>
       </div>
@@ -49,7 +51,7 @@
    </div>
  {% endfor %}
 
-<div class="col-12 p-3">
+<div class="text-center mb-4">
     <a class="btn  btn-success btn-lg cnp-produce-result" href='#'>{% trans 'Result' %}</a>
 </div>
 

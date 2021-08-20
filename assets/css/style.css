@@ -10,3 +10,9 @@ html, body {
 .cnp-produce-amount {
     color: red;
 }
+
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
