@@ -19,13 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.nest.views import produce_page, fashions_page, new_item, items_list, produce_add, produce_del, item_edit, \
-    item_size_del, piece_del, produce_result
+    item_size_del, piece_del, produce_result, add_new_item
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", fashions_page, name="main_page"),
     path("fashions/", fashions_page, name="fashions_page"),
-    path("new/", new_item, name="new_item"),
+    path("new/", add_new_item, name="add_new_item"),
     path("items_list/<int:fashion_id>/", items_list, name="items_list"),
     path("produce/", produce_page, name="produce_page"),
     path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),

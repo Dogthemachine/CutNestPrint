@@ -84,6 +84,20 @@ $(document).ready(function() {
         });
    });
 
+   $('.cnp-add-item').on('click', function() {
+
+        $.ajax({
+            url: '/new/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+   });
+
 });
 
 

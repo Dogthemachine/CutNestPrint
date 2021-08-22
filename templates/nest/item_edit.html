@@ -6,37 +6,40 @@
 
 {% block content %}
 
- <div class="row">
+{% include 'nest/main_bar.html' %}
 
-    <div class="col-4"><h1>{% trans 'Edit item' %}</h1></div>
-    <div class="col-4"><h3>{{ item.name }}</h3></div>
+<div class="row mb-3"></div>
 
+<div class="card mb-3" >
+    <div class="row no-gutters">
+        <div class="card-body">
+            <div class="row pt-5">
 
-    <div class="col-4 p-3">
-        <img src="{{ MEDIA_URL }}{{ item.image }}" class="img-fluid p-3">
-    </div>
+                <div class="col-4 pt-5"><h3>{{ item.name }}</h3></div>
+                <div class="col-4 pt-5"><h3>{{ item.fashions }}</h3></div>
 
-    <div class="col-12">
-      <form method="POST">{% csrf_token %}
-        <div class="col-12">
-          {{ item_form.as_p }}
-          <button class="btn btn-primary btn-sm" name="edit_item" type="submit">{% trans 'Save item' %}</button>
+                <div class="col-md-4 xt-righte">
+                    <img src="{{ MEDIA_URL }}{{ item.image }}" class="img-fluid p-3">
+                </div>
+
+                <div class="col-12">
+                  <form method="POST">{% csrf_token %}
+                      {{ item_form.as_p }}
+                      {{ size_form }}
+                      <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
+                      <div class="text-right">
+                        <button class="btn btn-primary btn-l" name="edit_item" type="submit">{% trans 'Save item' %}</button>
+                      </div>
+                  </form>
+                </div>
+
+            </div>
         </div>
-      </form>
     </div>
-
 </div>
 
-<div class="row">
 
-  <div class="col-12 m-3">
-      <form method="POST">{% csrf_token %}
-        <div class="col-12">
-          {{ size_form }}
-          <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
-        </div>
-      </form>
-  </div>
+<div class="row">
 
   <table class="table">
 

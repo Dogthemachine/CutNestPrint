@@ -10,6 +10,8 @@ from apps.nest.helpers import TIFF2SVG
 import os
 import re
 import shutil
+import datetime
+from PIL import Image
 
 def main_page(request):
 
@@ -144,6 +146,21 @@ def produce_result(request):
 
 
 @json_view
+def add_new_item(request):
+
+    if request.method == "POST":
+        new = Items()
+        new.cats_id = 10000
+        new.name = "New Item"
+        new.added = datetime.datetime.now()
+        new.fashions = Fashions.objects.filter(showcase_displayed=True)[0]
+        im = Image.open(str(settings.BASE_DIR) + "/assets/img/new_item_image.png")
+        new.image.file = im
+        new.save()
+
+        return redirect('item_edit', new.id, 0)
+
+@json_view
 def produce_add(request, imagesize_id, amount):
 
     if request.method == "POST":
@@ -169,10 +186,10 @@ def produce_del(request, imagesize_id):
     if request.method == "POST":
         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
         ProducePage.objects.filter(items_sizes=imagesize).delete()
-        return {"success": True}
-
-    else:
-        return {"success": False}
+        return render(
+            request,
+            "nest/items_list.html", {'items': items},
+        )
 
 
 @json_view
