@@ -121,7 +121,7 @@ class Pieces(models.Model):
             temp = BytesIO()
             im = Image.open(self.detail.file)
             im.convert("RGB")
-            size = 100, 100
+            size = 200, 200
             im.thumbnail(size, Image.ANTIALIAS)
             im.save(temp, "JPEG", quality=100)
             self.image = InMemoryUploadedFile(temp, None, self.detail.file.name, 'image/jpeg', sys.getsizeof(temp), None)

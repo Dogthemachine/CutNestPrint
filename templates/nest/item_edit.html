@@ -8,39 +8,34 @@
 
 {% include 'nest/main_bar.html' %}
 
-<div class="row mb-3"></div>
-
 <div class="card mb-3" >
-    <div class="row no-gutters">
-        <div class="card-body">
-            <div class="row pt-5">
+    <div class="card-body">
+        <div class="row pt-5">
 
-                <div class="col-4 pt-5"><h3>{{ item.name }}</h3></div>
-                <div class="col-4 pt-5"><h3>{{ item.fashions }}</h3></div>
+            <div class="col-4 pt-5"><h3>{{ item.name }}</h3></div>
+            <div class="col-4 pt-5"><h3>{{ item.fashions }}</h3></div>
 
-                <div class="col-md-4 xt-righte">
-                    <img src="{{ MEDIA_URL }}{{ item.image }}" class="img-fluid p-3">
-                </div>
-
-                <div class="col-12">
-                  <form method="POST">{% csrf_token %}
-                      {{ item_form.as_p }}
-                      {{ size_form }}
-                      <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
-                      <div class="text-right">
-                        <button class="btn btn-primary btn-l" name="edit_item" type="submit">{% trans 'Save item' %}</button>
-                      </div>
-                  </form>
-                </div>
-
+            <div class="col-md-4">
+                <img src="{{ MEDIA_URL }}{{ item.image }}" class="img-fluid p-3">
             </div>
+
+            <div class="col-12">
+              <form method="POST">{% csrf_token %}
+                  {{ item_form.as_p }}
+                  {{ size_form }}
+                  <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
+                  <div class="text-right">
+                    <button class="btn btn-primary btn-l" name="edit_item" type="submit">{% trans 'Save item' %}</button>
+                  </div>
+              </form>
+            </div>
+
         </div>
     </div>
 </div>
 
 
 <div class="row">
-
   <table class="table">
 
     {% for size in item.get_sizes %}
@@ -75,10 +70,13 @@
         </td>
         </tr>
     {% endfor %}
-
   </table>
 
 </div>
+
+<div class="text-right">
+        <button class="btn btn-danger btn-block mb-4 cnp-delete-item" data-item-id="{{ item.id }}" href='#'>{% trans 'Delete item' %}</button>
+    </div>
 
 {% endblock %}
 

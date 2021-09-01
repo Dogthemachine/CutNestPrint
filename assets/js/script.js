@@ -70,10 +70,11 @@ $(document).ready(function() {
         });
     });
 
-    $('.cnp-produce-result').on('click', function() {
+    $('.cnp-piece-rotate').on('click', function() {
 
+        var piece_id = $(this).data('piece-id');
         $.ajax({
-            url: '/produce_result/',
+            url: '/piece_rotate/' + piece_id + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -82,12 +83,12 @@ $(document).ready(function() {
                 }
             }
         });
-   });
+    });
 
-   $('.cnp-add-item').on('click', function() {
+    $('.cnp-produce-result').on('click', function() {
 
         $.ajax({
-            url: '/new/',
+            url: '/produce_result/',
             type: 'post',
             success: function(data) {
                 if (data.success) {

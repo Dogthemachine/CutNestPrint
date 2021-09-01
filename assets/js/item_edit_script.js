@@ -31,5 +31,20 @@ $(document).ready(function() {
         });
     });
 
-});
+    $('.cnp-delete-item').on('click', function() {
 
+        var id_item = $(this).data('item-id');
+
+        $.ajax({
+            url: '/delete_item/' + id_item + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                window.location.replace(window.location.protocol.toString() + "//" + window.location.host.toString() + "/fashions/");
+                } else {
+                }
+            }
+        });
+   });
+
+});

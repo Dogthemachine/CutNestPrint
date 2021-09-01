@@ -6,10 +6,16 @@ from django.conf import settings
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.nest.forms import ItemForm, SizeForm, PieceForm
 from apps.nest.helpers import TIFF2SVG
+from django.utils.translation import gettext_lazy as _
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
+import sys
 import os
 import re
+import random
+import string
 import shutil
+from io import BytesIO
 import datetime
 from PIL import Image
 
@@ -136,7 +142,6 @@ def produce_result(request):
                     shutil.copy(piece.contour.path, settings.MEDIA_RESULT_CONTOUR)
                 else:
                     save_svg_path = settings.MEDIA_RESULT_CONTOUR + re.findall('[/].*[.]', piece.detail.name)[0] + "svg"
-                    print(re.findall('[/].*[.]', piece.detail.name)[0])
                     TIFF2SVG(piece.detail.path, save_svg_path)
 
         return {"success": True}
@@ -145,20 +150,20 @@ def produce_result(request):
         return {"success": False}
 
 
-@json_view
 def add_new_item(request):
 
-    if request.method == "POST":
-        new = Items()
-        new.cats_id = 10000
-        new.name = "New Item"
-        new.added = datetime.datetime.now()
-        new.fashions = Fashions.objects.filter(showcase_displayed=True)[0]
-        im = Image.open(str(settings.BASE_DIR) + "/assets/img/new_item_image.png")
-        new.image.file = im
-        new.save()
+    new = Items()
+    new.cats_id = 10000
+    new.name = _("New Item")
+    new.added = datetime.datetime.now()
+    new.fashions = Fashions.objects.filter(showcase_displayed=True)[0]
+    temp = BytesIO()
+    im = Image.open(str(settings.BASE_DIR) + "/assets/img/new_item_image.jpg")
+    im.save(temp, "JPEG", quality=100)
+    new.image = InMemoryUploadedFile(temp, None, ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(18)), 'image/jpeg', sys.getsizeof(temp), None)
+    new.save()
 
-        return redirect('item_edit', new.id, 0)
+    return redirect('item_edit', new.id, 0)
 
 @json_view
 def produce_add(request, imagesize_id, amount):
@@ -211,6 +216,35 @@ def piece_del(request, piece_id):
     if request.method == "POST":
         item = get_object_or_404(Pieces, id=piece_id)
         item.delete()
+        return {"success": True}
+
+    else:
+        return {"success": False}
+
+
+@json_view
+def delete_item(request, item_id):
+
+    if request.method == "POST":
+        item = get_object_or_404(Items, id=item_id)
+        item.delete()
+
+        return {"success": True}
+
+    else:
+        return {"success": False}
+
+
+@json_view
+def piece_rotate(request, piece_id):
+
+    if request.method == "POST":
+        print("DELETE")
+        # piece = get_object_or_404(Pieces, id=piece_id)
+        # image = Image.open(piece.detail.path)
+        # image = image.rotate(90, expand=True)
+        # piece.detail = image
+
         return {"success": True}
 
     else:

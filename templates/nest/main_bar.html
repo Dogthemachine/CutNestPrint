@@ -3,7 +3,7 @@
 
 <nav class="navbar fixed-top navbar-light bg-light">
   <div class="form-inline my-2 my-lg-0">
-    <a class="btn btn-info btn-lg cnp-add-item" href='#'>{% trans 'New item'%}</a>
+    <a class="btn btn-info btn-lg" href="{% url 'add_new_item' %}">{% trans 'New item'%}</a>
   </div>
   <div class="form-inline my-2 my-lg-0">
     <a class="btn btn-default btn-lg" href="{% url 'main_page' %}">{% trans 'Fashions' %}</a>
