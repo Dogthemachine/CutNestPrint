@@ -239,7 +239,7 @@ def delete_item(request, item_id):
 def piece_rotate(request, piece_id):
 
     if request.method == "POST":
-        print("DELETE")
+        print("SUCK")
         # piece = get_object_or_404(Pieces, id=piece_id)
         # image = Image.open(piece.detail.path)
         # image = image.rotate(90, expand=True)
