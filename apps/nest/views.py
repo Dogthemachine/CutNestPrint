@@ -4,7 +4,7 @@ from jsonview.decorators import json_view
 from django.conf import settings
 
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
-from apps.nest.forms import ItemForm, SizeForm, PieceForm
+from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm
 from apps.nest.helpers import TIFF2SVG
 from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -112,14 +112,35 @@ def item_edit(request, item_id, size_id):
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
 
+        if 'change_avatar' in request.POST:
+            avatar_form = AvatarForm(request.POST, request.FILES)
+            file = request.FILES.getlist('image')
+            if avatar_form.is_valid():
+                nameimg2delete = item.image.path
+                img = Image.open(file)
+                img.show()
+                temp = BytesIO()
+                img.save(temp, "JPEG", quality=100)
+                item.image = InMemoryUploadedFile(temp, None, item.image.path, 'image/jpeg', sys.getsizeof(temp), None)
+                item.save()
+                os.remove(nameimg2delete)
+                temp.seek(0)
+                return redirect('item_edit', item_id, 0)
+            else:
+                print("SUCK")
+            item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
+            size_form = SizeForm()
+            avatar_form = AvatarForm()
+
     else:
         item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
         size_form = SizeForm()
         piece_form = PieceForm()
+        avatar_form = AvatarForm()
 
     return render(
         request,
-        "nest/item_edit.html", {'item': item, 'item_form': item_form, 'size_form': size_form, 'piece_form': piece_form},
+        "nest/item_edit.html", {'item': item, 'item_form': item_form, 'size_form': size_form, 'piece_form': piece_form, 'avatar_form': avatar_form},
     )
 
 
@@ -239,11 +260,18 @@ def delete_item(request, item_id):
 def piece_rotate(request, piece_id):
 
     if request.method == "POST":
-        print("SUCK")
-        # piece = get_object_or_404(Pieces, id=piece_id)
-        # image = Image.open(piece.detail.path)
-        # image = image.rotate(90, expand=True)
-        # piece.detail = image
+        piece = get_object_or_404(Pieces, id=piece_id)
+        namedet2delete = piece.detail.path
+        nameimg2delete = piece.image.path
+        img = Image.open(piece.detail.path)
+        img = img.rotate(90, expand=True)
+        temp = BytesIO()
+        img.save(temp, "TIFF", quality=100)
+        piece.detail = InMemoryUploadedFile(temp, None, piece.detail.path, 'image/tiff', sys.getsizeof(temp), None)
+        piece.save()
+        os.remove(namedet2delete)
+        os.remove(nameimg2delete)
+        temp.seek(0)
 
         return {"success": True}
 

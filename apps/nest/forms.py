@@ -17,4 +17,9 @@ class SizeForm(forms.Form):
 
 
 class PieceForm(forms.Form):
-    detail = forms.FileField(label=_('Detail'), widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    detail = forms.FileField(label=_('Select pieces'), widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
+class AvatarForm(forms.Form):
+    image = forms.FileField(label=_('Item image'), widget=forms.ClearableFileInput(attrs={'multiple': False}))
+

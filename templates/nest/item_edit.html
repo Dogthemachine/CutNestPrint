@@ -21,6 +21,8 @@
 
             <div class="col-12">
               <form method="POST">{% csrf_token %}
+                  {{ avatar_form.as_p }}
+                  <button class="btn btn-primary btn-sm" name="change_avatar" type="submit">{% trans 'Change image' %}</button>
                   {{ item_form.as_p }}
                   {{ size_form }}
                   <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>

@@ -38,11 +38,19 @@
                         </svg>
                     </a>
                   </form>
-                {% trans 'Pieces:  ' %}{{ item.items_sizes.items.count_of_pieces }}
+                 <div class="row mt-3">
+                    {% trans 'Pieces:  ' %}{{ item.items_sizes.get_pieces_amount }}
+                 </div>
                 <div class="row">
                 {% for piece in item.items_sizes.get_pieces %}
-                    <img class="card h-100" src="{{ MEDIA_URL }}{{ piece.image }}">
-                    <a class="btn btn-default btn-sm cnp-piece-rotate" data-piece-id="{{ piece.id }}"  href='#'>{% trans 'Rotate piece' %}</a>
+                    <div class="card">
+                        <div class="card-header">
+                            <img class=class="card-img-top" src="{{ MEDIA_URL }}{{ piece.image }}">
+                        </div>
+                        <div class="card-body">
+                            <a class="btn btn-default btn-sm cnp-piece-rotate" data-piece-id="{{ piece.id }}"  href='#'>{% trans 'Rotate piece' %}</a>
+                        </div>
+                    </div>
                 {% endfor %}
                 </div>
           </div>

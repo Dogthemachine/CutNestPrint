@@ -96,6 +96,12 @@ class ItemsSizes(models.Model):
     def get_pieces(self):
         return Pieces.objects.filter(items_sizes=self)
 
+    def get_pieces_amount(self):
+        count = 0
+        for piece in self.get_pieces():
+            count += 1
+        return count
+
     def get_produce_amount(self):
         try:
             return ProducePage.objects.get(items_sizes=self).amount
@@ -121,7 +127,7 @@ class Pieces(models.Model):
             temp = BytesIO()
             im = Image.open(self.detail.file)
             im.convert("RGB")
-            size = 200, 200
+            size = 100, 100
             im.thumbnail(size, Image.ANTIALIAS)
             im.save(temp, "JPEG", quality=100)
             self.image = InMemoryUploadedFile(temp, None, self.detail.file.name, 'image/jpeg', sys.getsizeof(temp), None)
