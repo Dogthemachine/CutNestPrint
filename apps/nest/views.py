@@ -114,11 +114,10 @@ def item_edit(request, item_id, size_id):
 
         if 'change_avatar' in request.POST:
             avatar_form = AvatarForm(request.POST, request.FILES)
-            file = request.FILES.getlist('image')
+            file = request.FILES.get('image')
             if avatar_form.is_valid():
                 nameimg2delete = item.image.path
                 img = Image.open(file)
-                img.show()
                 temp = BytesIO()
                 img.save(temp, "JPEG", quality=100)
                 item.image = InMemoryUploadedFile(temp, None, item.image.path, 'image/jpeg', sys.getsizeof(temp), None)
@@ -126,8 +125,6 @@ def item_edit(request, item_id, size_id):
                 os.remove(nameimg2delete)
                 temp.seek(0)
                 return redirect('item_edit', item_id, 0)
-            else:
-                print("SUCK")
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
             avatar_form = AvatarForm()
