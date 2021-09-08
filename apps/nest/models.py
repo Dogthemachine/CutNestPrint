@@ -6,6 +6,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 from io import BytesIO
 import sys
+import random
+import string
+
 
 class Categories(models.Model):
     cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
@@ -66,7 +69,7 @@ class Items(models.Model):
     cats_id = models.PositiveIntegerField(_("cats_id"), default=None, blank=True)
     name = models.CharField(_("name"), max_length=250)
     fashions = models.ForeignKey(Fashions, on_delete=models.CASCADE)
-    image = ResizedImageField(size=[300, 300], upload_to="photos_items/",  blank=True)
+    image = models.FileField(upload_to="photos_items/",  blank=True)
     count_of_pieces = models.PositiveSmallIntegerField(_("count of pieces"), default=0)
     added = models.DateTimeField(_("added"))
 

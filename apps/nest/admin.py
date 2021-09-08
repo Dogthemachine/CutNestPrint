@@ -1,24 +1,16 @@
 from django.contrib import admin
-from apps.nest.models import Categories, Fashions, Items, Sizes, Pieces
+from apps.orders.models import MaterialTypes, Rolls, Orders
 
 
-class CategoriesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sequence',)
-
-class FashionsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sequence',)
-
-class SizesAdmin(admin.ModelAdmin):
+class MaterialTypesAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
-class ItemsAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+class RollsAdmin(admin.ModelAdmin):
+    list_display = ('material_type', 'initially_meters', 'actual_meters', 'date_of_purchase', 'index',)
 
-class PiecesAdmin(admin.ModelAdmin):
-    list_display = ('id',)
+class OrdersAdmin(admin.ModelAdmin):
+    list_display = ('added', 'roll', 'amount_of_units', 'amount_of_material', 'expected_cost', 'actual_cost', 'date_of_manufacture', 'cost_rates',)
 
-admin.site.register(Categories, CategoriesAdmin)
-admin.site.register(Fashions, FashionsAdmin)
-admin.site.register(Sizes, SizesAdmin)
-admin.site.register(Items, ItemsAdmin)
-admin.site.register(Pieces, PiecesAdmin)
+admin.site.register(MaterialTypes, MaterialTypesAdmin)
+admin.site.register(Rolls, RollsAdmin)
+admin.site.register(Orders, OrdersAdmin)

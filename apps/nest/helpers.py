@@ -72,3 +72,12 @@ def TIFF2BACKGROUND(open_tiff_path, background, x_position, y_position, rotation
     background.save('test_tiff.tif')
     # Clearing memory
     del img, background, mask, image_width, image_height
+
+
+# def GETMATIREALAMOUNT(open_final_tiff_path):
+#     img = Image.open(open_final_tiff_path)
+#     image_width, image_height = img.size
+#     material_amount = image_width / 72 * 0,00393701
+#     return material_amount
+
+

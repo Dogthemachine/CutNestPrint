@@ -11,6 +11,11 @@
 <div class="row mt-5"></div>
 <div class="row mt-5"></div>
 
+<div class="row h-100 justify-content-center align-items-center">
+  <form method="POST">{% csrf_token %}
+     {{ choose_roll_form }}
+  </form>
+</div>
 
  {% for item in produce_items %}
     <div class="row">

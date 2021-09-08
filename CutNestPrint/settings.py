@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.nest',
     'apps.cats',
     'apps.cron',
+    'apps.orders',
     
 ]
 

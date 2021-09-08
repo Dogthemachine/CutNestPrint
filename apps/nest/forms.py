@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404,render
 from django.utils.translation import gettext_lazy as _
 
 from apps.nest.models import Fashions, Sizes, Items
+from apps.orders.models import Rolls
 
 
 class ItemForm(forms.Form):
@@ -29,4 +30,10 @@ class AvatarForm(forms.ModelForm):
     class Meta:
         model = Items
         fields = ('image', )
+
+
+class ChooseRollForm(forms.Form):
+    ROLLS = [(roll.id, roll.material_type.name + " (" + str(roll.actual_meters) + "m)") for roll in Rolls.objects.all()]
+    roll = forms.ChoiceField(label=_('Choose roll'), widget=forms.Select, choices=ROLLS)
+
 

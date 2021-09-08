@@ -87,8 +87,10 @@ $(document).ready(function() {
 
     $('.cnp-produce-result').on('click', function() {
 
+        var roll_id = $('#id_roll').val();
+
         $.ajax({
-            url: '/produce_result/',
+            url: '/produce_result/' + roll_id + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
