@@ -4,7 +4,7 @@ from jsonview.decorators import json_view
 from django.conf import settings
 
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
-from apps.orders.models import Orders, Rolls
+from apps.orders.models import Orders, Rolls, ClothesInOrders
 from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm, ChooseRollForm
 from apps.nest.helpers import TIFF2SVG
 from django.utils.translation import gettext_lazy as _
@@ -147,7 +147,39 @@ def item_edit(request, item_id, size_id):
 
 
 @json_view
-def produce_result(request, roll_id):
+def produce_result_validate(request, roll_id):
+
+    if request.method == "POST":
+
+        roll = get_object_or_404(Rolls, id=roll_id)
+        new_order = Orders()
+        new_order.cost_rates = 3.2
+        new_order.roll = roll
+        count_of_items = 0
+        for item in ProducePage.objects.all():
+            count_of_items += item.amount
+        new_order.amount_of_units = count_of_items
+        new_order.amount_of_material = 0.0
+        new_order.expected_cost = 0.0
+        new_order.actual_cost = 0.0
+        new_order.date_of_manufacture = datetime.datetime.now()
+        new_order.save()
+        for item in ProducePage.objects.all():
+            new_unit = ClothesInOrders()
+            new_unit.items_sizes = item.items_sizes
+            new_unit.amount = item.amount
+            new_unit.order = new_order
+            new_unit.save()
+        ProducePage.objects.all().delete()
+
+        return {"success": True}
+
+    else:
+        return {"success": False}
+
+
+@json_view
+def produce_result_nesting(request, roll_id):
 
     if os.listdir(settings.MEDIA_RESULT_IMG):
         for file in os.listdir(settings.MEDIA_RESULT_IMG):
@@ -156,38 +188,19 @@ def produce_result(request, roll_id):
         for file in os.listdir(settings.MEDIA_RESULT_CONTOUR):
             os.remove(os.path.join(settings.MEDIA_RESULT_CONTOUR, file))
 
-    choose_roll_form = ChooseRollForm()
+    for item in ProducePage.objects.all():
+        for piece in item.items_sizes.get_pieces():
+            shutil.copy(piece.detail.path, settings.MEDIA_RESULT_IMG)
+            if piece.contour:
+                shutil.copy(piece.contour.path, settings.MEDIA_RESULT_CONTOUR)
+            else:
+                save_svg_path = settings.MEDIA_RESULT_CONTOUR + re.findall('[/].*[.]', piece.detail.name)[0] + "svg"
+                TIFF2SVG(piece.detail.path, save_svg_path)
 
-    if request.method == "POST":
+        return {"success": True}
 
-        roll = get_object_or_404(Rolls, id=roll_id)
-        for item in ProducePage.objects.all():
-            for piece in item.items_sizes.get_pieces():
-                shutil.copy(piece.detail.path, settings.MEDIA_RESULT_IMG)
-                if piece.contour:
-                    shutil.copy(piece.contour.path, settings.MEDIA_RESULT_CONTOUR)
-                else:
-                    save_svg_path = settings.MEDIA_RESULT_CONTOUR + re.findall('[/].*[.]', piece.detail.name)[0] + "svg"
-                    TIFF2SVG(piece.detail.path, save_svg_path)
-
-        new_order = Orders()
-        new_order.cost_rates = 3.2
-        new_order.roll = roll
-        count_of_items = 0
-        for item in ProducePage.objects.all():
-            count_of_items = item.amount + count_of_items
-        new_order.amount_of_units = count_of_items
-        new_order.amount_of_material = 0.0
-        new_order.expected_cost = 0.0
-        new_order.actual_cost = 0.0
-        new_order.date_of_manufacture = datetime.datetime.now()
-        new_order.save()
-
-    return render(
-        request,
-        "nest/produce_page.html",
-        {'choose_roll_form': choose_roll_form},
-    )
+    else:
+        return {"success": False}
 
 
 def add_new_item(request):

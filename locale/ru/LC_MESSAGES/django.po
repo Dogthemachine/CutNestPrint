@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 16:16+0000\n"
+"POT-Creation-Date: 2021-09-11 14:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,47 +20,268 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps/nest/models.py:6 apps/nest/models.py:23 apps/nest/models.py:39
-#: apps/nest/models.py:54
+#: apps/cats/models.py:6 apps/cats/models.py:19 apps/cats/models.py:31
+#: apps/cats/models.py:42 apps/nest/models.py:15 apps/nest/models.py:36
+#: apps/nest/models.py:54 apps/nest/models.py:70
 msgid "name"
-msgstr ""
+msgstr "Название"
 
-#: apps/nest/models.py:11 apps/nest/models.py:27 apps/nest/models.py:42
+#: apps/cats/models.py:11 apps/cats/models.py:23 apps/cats/models.py:34
+#: apps/nest/models.py:20 apps/nest/models.py:40 apps/nest/models.py:57
+#: apps/nest/models.py:143
 msgid "sequence"
-msgstr ""
+msgstr "Количество"
 
-#: apps/nest/models.py:15 apps/nest/models.py:16
-msgid "Categories of items"
-msgstr ""
-
-#: apps/nest/models.py:31 apps/nest/models.py:32
-msgid "Fashions of items"
-msgstr ""
-
-#: apps/nest/models.py:41
+#: apps/cats/models.py:33 apps/nest/models.py:56
 msgid "description"
-msgstr ""
+msgstr "Описание"
 
-#: apps/nest/models.py:46 apps/nest/models.py:47
-msgid "Sizes of items"
-msgstr ""
-
-#: apps/nest/models.py:57
-msgid "count of pieces"
-msgstr ""
-
-#: apps/nest/models.py:58
+#: apps/cats/models.py:45 apps/nest/models.py:74 apps/orders/models.py:34
 msgid "added"
+msgstr "Добавлено"
+
+#: apps/nest/forms.py:11
+msgid "Item name"
+msgstr "Название"
+
+#: apps/nest/forms.py:12
+msgid "Fashion"
+msgstr "Фасон"
+
+#: apps/nest/forms.py:17 templates/nest/item_edit.html:32
+#: templates/nest/item_edit.html:105
+msgid "Add size"
+msgstr "Добавить размер"
+
+#: apps/nest/forms.py:21
+msgid "Select pieces"
+msgstr "Выбрать выкройки"
+
+#: apps/nest/forms.py:37
+msgid "Choose roll"
+msgstr "Выбрать рулон"
+
+#: apps/nest/models.py:14 apps/nest/models.py:35 apps/nest/models.py:53
+#: apps/nest/models.py:69
+msgid "cats_id"
 msgstr ""
 
-#: apps/nest/models.py:62 apps/nest/models.py:63
+#: apps/nest/models.py:21 apps/nest/models.py:41
+msgid "showcase_displayed"
+msgstr "Отображать на витрине"
+
+#: apps/nest/models.py:27 apps/nest/models.py:28
+msgid "Categories of items"
+msgstr "Категории"
+
+#: apps/nest/models.py:45 apps/nest/models.py:46
+msgid "Fashions of items"
+msgstr "Фасоны"
+
+#: apps/nest/models.py:61 apps/nest/models.py:62
+msgid "Sizes of items"
+msgstr "Размеры"
+
+#: apps/nest/models.py:73
+msgid "count of pieces"
+msgstr "Количество"
+
+#: apps/nest/models.py:78 apps/nest/models.py:79
 msgid "items"
-msgstr ""
+msgstr "Изделие"
 
-#: apps/nest/models.py:77 apps/nest/models.py:78
+#: apps/nest/models.py:93 apps/nest/models.py:94
+msgid "items sizes"
+msgstr "Изделие"
+
+#: apps/nest/models.py:122 apps/nest/models.py:123
 msgid "piece"
-msgstr ""
+msgstr "Выкройка"
+
+#: apps/nest/models.py:146 apps/nest/models.py:147 apps/orders/models.py:58
+#: apps/orders/models.py:59
+msgid "produce"
+msgstr "Заказ"
+
+#: apps/nest/views.py:212
+msgid "New Item"
+msgstr "Новое изделие"
+
+#: apps/orders/models.py:7 apps/orders/models.py:10 apps/orders/models.py:11
+msgid "material type"
+msgstr "Тип ткани"
+
+#: apps/orders/models.py:18
+msgid "index"
+msgstr "Индекс"
+
+#: apps/orders/models.py:20
+msgid "initially meters"
+msgstr "В начале было метров"
+
+#: apps/orders/models.py:21
+msgid "actual meters"
+msgstr "Метров на данный момент"
+
+#: apps/orders/models.py:22 apps/orders/models.py:40
+msgid "date of manufacture"
+msgstr "Дата изготовления"
+
+#: apps/orders/models.py:25 apps/orders/models.py:26
+msgid "rolls"
+msgstr "Рулоны"
+
+#: apps/orders/models.py:33
+msgid "coast rate"
+msgstr "Цена за метр"
+
+#: apps/orders/models.py:36
+msgid "amount of units"
+msgstr "Количество вещей"
+
+#: apps/orders/models.py:37
+msgid "amount of material"
+msgstr "Сколько ткани"
+
+#: apps/orders/models.py:38
+msgid "expected cost"
+msgstr "Предположительня стоимость"
+
+#: apps/orders/models.py:39
+msgid "actual cost"
+msgstr "Фактическая стоимость"
+
+#: apps/orders/models.py:41
+msgid "Paid or not"
+msgstr "Оплачен"
+
+#: apps/orders/models.py:45 apps/orders/models.py:46
+msgid "orders"
+msgstr "Заказы"
+
+#: apps/orders/models.py:54
+msgid "amount"
+msgstr "Количество"
+
+#: templates/nest/fashions_page.html:5 templates/nest/item_edit.html:5
+#: templates/nest/items_list.html:5 templates/nest/new_item_page.html:5
+#: templates/nest/produce_page.html:5 templates/orders/show_order.html:5
+msgid "Making cuts for produce clothes"
+msgstr "Менеджер выкроек"
+
+#: templates/nest/item_edit.html:25 templates/nest/item_edit.html:98
+msgid "Change image"
+msgstr "Заменить картинку"
+
+#: templates/nest/item_edit.html:34 templates/nest/item_edit.html:107
+msgid "Save item"
+msgstr "Сохранить"
+
+#: templates/nest/item_edit.html:55
+msgid "Add piece"
+msgstr "Добавить выкройку"
+
+#: templates/nest/item_edit.html:60
+msgid "Delete size"
+msgstr "Удалить размер"
+
+#: templates/nest/item_edit.html:71
+msgid "Delete piece"
+msgstr "Удалить выкройку"
+
+#: templates/nest/item_edit.html:84
+msgid "Delete item"
+msgstr "Удалить изделие"
+
+#: templates/nest/items_list.html:28 templates/nest/produce_page.html:31
+#: templates/orders/show_order.html:38
+msgid "Size:"
+msgstr "Размер"
+
+#: templates/nest/items_list.html:30 templates/nest/produce_page.html:32
+msgid "In produce:"
+msgstr "В заказе"
+
+#: templates/nest/items_list.html:53
+msgid "Edit item"
+msgstr "Редактировать изделие"
+
+#: templates/nest/main_bar.html:6 templates/nest/main_page.html:15
+msgid "New item"
+msgstr "Новое изделие"
+
+#: templates/nest/main_bar.html:9
+msgid "Fashions"
+msgstr "Одежда"
+
+#: templates/nest/main_bar.html:12
+msgid "Orders"
+msgstr "Заказы"
+
+#: templates/nest/main_bar.html:15
+msgid "To produce"
+msgstr "Заказ"
 
 #: templates/nest/main_page.html:5
 msgid "Making cuts for pinting clothes"
+msgstr "Менеджер выкроек"
+
+#: templates/nest/main_page.html:10
+msgid "PRIVET"
 msgstr ""
+
+#: templates/nest/main_page.html:18
+msgid "Make an order"
+msgstr ""
+
+#: templates/nest/produce_page.html:47
+msgid "Pieces:  "
+msgstr "Деталей:  "
+
+#: templates/nest/produce_page.html:56
+msgid "Rotate piece"
+msgstr "Повернуть"
+
+#: templates/nest/produce_page.html:69
+msgid "Validate nesting "
+msgstr "Подтвердить заказ"
+
+#: templates/nest/produce_page.html:70
+msgid "Make nesting"
+msgstr "Сделать раскладку"
+
+#: templates/orders/orders_page.html:5
+msgid "Show order"
+msgstr "Заказ"
+
+#: templates/orders/show_order.html:18
+msgid "Material:  "
+msgstr "Ткань:  "
+
+#: templates/orders/show_order.html:19
+msgid "Rate per meter:  "
+msgstr "Стоимость за метр:  "
+
+#: templates/orders/show_order.html:20
+msgid "Roll index:  "
+msgstr "Индекс рулона:  "
+
+#: templates/orders/show_order.html:21
+msgid "Amount of clothes:  "
+msgstr "Колличество изделий:  "
+
+#: templates/orders/show_order.html:22
+msgid "Amount of material:  "
+msgstr "Сколько ткани:  "
+
+#: templates/orders/show_order.html:23
+msgid "Cost:  "
+msgstr "Стоимость:  "
+
+#: templates/orders/show_order.html:24
+msgid "Date of manufacture:  "
+msgstr "Дата изготовления:  "
+
+#: templates/orders/show_order.html:39
+msgid "In order:"
+msgstr "В заказе:  "

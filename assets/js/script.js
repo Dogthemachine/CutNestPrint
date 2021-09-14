@@ -85,12 +85,12 @@ $(document).ready(function() {
         });
     });
 
-    $('.cnp-produce-result').on('click', function() {
+    $('.cnp-produce-result-nesting').on('click', function() {
 
         var roll_id = $('#id_roll').val();
 
         $.ajax({
-            url: '/produce_result/' + roll_id + '/',
+            url: '/produce_result_nesting/' + roll_id + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -100,6 +100,23 @@ $(document).ready(function() {
             }
         });
    });
+
+    $('.cnp-produce-result-validate').on('click', function() {
+
+        var roll_id = $('#id_roll').val();
+
+        $.ajax({
+            url: '/produce_result_validate/' + roll_id + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+   });
+
 
 });
 

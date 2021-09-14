@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans 'Making cuts for produce clothes' %}{% endblock %}
+
+{% block content %}
+
+{% include 'nest/main_bar.html' %}
+
+<div class="row mt-5"></div>
+<div class="row mt-5"></div>
+
+<div class="row h-100 justify-content-center align-items-center mb-4">
+    <h3>{{ order.added }}</h3>
+</div>
+
+<h3 class="col-12 mb-3">{% trans 'Material:  ' %}{{ order.roll.material_type }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Rate per meter:  ' %}{{ order.cost_rates }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Roll index:  ' %}{{ order.roll.id }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Amount of clothes:  ' %}{{ order.amount_of_units }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Amount of material:  ' %}{{ order.amount_of_material }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Cost:  ' %}{{ order.expected_cost }}</h3>
+<h3 class="col-12 mb-5">{% trans 'Date of manufacture:  ' %}{{ order.date_of_manufacture }}</h3>
+
+ {% for item in clothes %}
+    <div class="row">
+    <div class="card mb-3" >
+      <div class="row no-gutters ">
+        <div class="col-2 p-3">
+          <img src="{{ MEDIA_URL }}{{ item.items_sizes.items.image }}" class="card-img" alt="">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+              {{ item.items_sizes.items.fashions.categories }}
+              {{ item.items_sizes.items.fashions }}
+            <h2 class="card-title">{{ item.items_sizes.items.name }}</h2>
+              <h3> {% trans 'Size:' %}{{ item.items_sizes.sizes.name }}</h3>
+              <span class="cnp-produce-amount">{% trans 'In order:' %} {{ item.amount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+ {% endfor %}
+
+
+{% endblock %}

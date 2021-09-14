@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from apps.nest.models import ItemsSizes
 
 
 class MaterialTypes(models.Model):
@@ -37,6 +38,7 @@ class Orders(models.Model):
     expected_cost = models.DecimalField(_("expected cost"), max_digits=5, decimal_places=2)
     actual_cost = models.DecimalField(_("actual cost"), max_digits=5, decimal_places=2)
     date_of_manufacture = models.DateTimeField(_("date of manufacture"))
+    paid = models.BooleanField(_("Paid or not"), default=False)
 
     class Meta:
         ordering = ("added",)
@@ -45,3 +47,20 @@ class Orders(models.Model):
 
     def __str__(self):
         return str(self.added)
+
+
+class ClothesInOrders(models.Model):
+    items_sizes = models.ForeignKey(ItemsSizes, on_delete=models.CASCADE, default=None, blank=True)
+    amount = models.PositiveSmallIntegerField(_("amount"), default=0)
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE, default=None, blank=True)
+
+    class Meta:
+        verbose_name = _("produce")
+        verbose_name_plural = _("produce")
+
+    def __str__(self):
+        return str(self.order_id)
+
+
+class GlobalSettings(models.Model):
+    this_order = models.ForeignKey(Orders, on_delete=models.CASCADE, default=None, blank=True)

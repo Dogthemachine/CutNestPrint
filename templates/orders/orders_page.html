@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans 'Show order' %}{% endblock %}
+
+{% block content %}
+
+{% include 'nest/main_bar.html' %}
+
+<div class="row mt-5"></div>
+<div class="row mt-5"></div>
+
+{% for order in all_orders %}
+<div class="row h-100 justify-content-center align-items-center">
+  <a class="btn btn-outline-dark mb-3" href="{% url 'show_order' order.id %}">{{ order.added }}
+      {{ order.roll.material_type }}</a>
+</div>
+{% endfor %}
+
+
+{% endblock %}

@@ -19,7 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.nest.views import produce_page, fashions_page, items_list, produce_add, produce_del, item_edit, \
-    item_size_del, piece_del, produce_result, add_new_item, delete_item, piece_rotate
+    item_size_del, piece_del, produce_result_nesting, add_new_item, delete_item, piece_rotate, produce_result_validate
+
+from apps.orders.views import orders_page, show_order
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,15 +29,21 @@ urlpatterns = [
     path("fashions/", fashions_page, name="fashions_page"),
     path("new/", add_new_item, name="add_new_item"),
     path("items_list/<int:fashion_id>/", items_list, name="items_list"),
+
     path("produce/", produce_page, name="produce_page"),
     path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),
     path("produce-del/<int:imagesize_id>/", produce_del, name="produce_del"),
-    path("produce_result/<int:roll_id>/", produce_result, name="produce_result"),
+    path("produce_result_nesting/<int:roll_id>/", produce_result_nesting, name="produce_result"),
+    path("produce_result_validate/<int:roll_id>/", produce_result_validate, name="produce_result"),
+
     path("item_edit/<int:item_id>/<int:size_id>/", item_edit, name="item_edit"),
     path("item-size-del/<int:item_id>/<int:size_id>/", item_size_del, name="item_size_del"),
     path("piece_rotate/<int:piece_id>/", piece_rotate, name="piece_rotate"),
     path("piece-del/<int:piece_id>/", piece_del, name="piece_del"),
     path("delete_item/<int:item_id>/", delete_item, name="delete_item"),
+
+    path("orders/", orders_page, name="orders_page"),
+    path("orders/<int:order_id>/", show_order, name="show_order")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
