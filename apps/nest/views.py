@@ -6,7 +6,7 @@ from django.conf import settings
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.orders.models import Orders, Rolls, ClothesInOrders
 from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm, ChooseRollForm
-from apps.nest.helpers import TIFF2SVG
+from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND
 from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -19,6 +19,7 @@ import shutil
 from io import BytesIO
 import datetime
 from PIL import Image
+import subprocess
 
 def main_page(request):
 
@@ -34,7 +35,11 @@ def main_page(request):
 def produce_page(request):
 
     produce_items = ProducePage.objects.all()
-
+    amount_of_pieces = 0
+    amount_of_items = 0
+    for item in produce_items:
+        amount_of_pieces += item.amount * item.items_sizes.get_pieces_amount()
+        amount_of_items += item.amount
     if request.method == "POST":
         pass
     choose_roll_form = ChooseRollForm()
@@ -42,7 +47,10 @@ def produce_page(request):
     return render(
         request,
         "nest/produce_page.html", {
-            'produce_items': produce_items, 'choose_roll_form': choose_roll_form,
+            'produce_items': produce_items,
+            'choose_roll_form': choose_roll_form,
+            'amount_of_pieces': amount_of_pieces,
+            'amount_of_items': amount_of_items,
         },
     )
 
@@ -188,19 +196,26 @@ def produce_result_nesting(request, roll_id):
         for file in os.listdir(settings.MEDIA_RESULT_CONTOUR):
             os.remove(os.path.join(settings.MEDIA_RESULT_CONTOUR, file))
 
+    file_name = 1
     for item in ProducePage.objects.all():
         for piece in item.items_sizes.get_pieces():
-            shutil.copy(piece.detail.path, settings.MEDIA_RESULT_IMG)
-            if piece.contour:
-                shutil.copy(piece.contour.path, settings.MEDIA_RESULT_CONTOUR)
-            else:
-                save_svg_path = settings.MEDIA_RESULT_CONTOUR + re.findall('[/].*[.]', piece.detail.name)[0] + "svg"
-                TIFF2SVG(piece.detail.path, save_svg_path)
+            for i in range(item.amount):
+                tif_name = settings.MEDIA_RESULT_IMG + "/" + str(file_name) + "UUU" + ".tif"
+                shutil.copy(piece.detail.path, tif_name)
+                if piece.contour:
+                    contour_name = settings.MEDIA_RESULT_IMG + "/" + str(file_name) + ".svg"
+                    shutil.copy(piece.contour.path, contour_name)
+                else:
+                    save_svg_path = settings.MEDIA_RESULT_CONTOUR + "/" + str(file_name) + ".svg"
+                    TIFF2SVG(piece.detail.path, save_svg_path)
+                file_name += 1
 
-        return {"success": True}
+    MAKEBACKGROUND(500, 146)
 
-    else:
-        return {"success": False}
+    os.chdir("/Users/Dogthemachine/DeepNest/Deepnest")
+    os.system("npm run start")
+
+    return {"success": True}
 
 
 def add_new_item(request):
@@ -310,7 +325,3 @@ def piece_rotate(request, piece_id):
 
     else:
         return {"success": False}
-
-
-
-
