@@ -117,6 +117,36 @@ $(document).ready(function() {
         });
    });
 
+   $('.cnp-produce-finish-apportionment').on('click', function() {
+
+        $.ajax({
+            url: '/produce_finish_apportionment/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    $("#666").html(data.html)
+                } else {
+                }
+            }
+        });
+   });
+
+   $('.cnp-produce-send-email').on('click', function() {
+
+        var roll_id = $('#id_roll').val();
+
+        $.ajax({
+            url: '/produce_send_email/' + roll_id + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+   });
+
 
 });
 

@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.nest.views import produce_page, fashions_page, items_list, produce_add, produce_del, item_edit, \
-    item_size_del, piece_del, produce_result_nesting, add_new_item, delete_item, piece_rotate, produce_result_validate
+    item_size_del, piece_del, produce_result_nesting, add_new_item, delete_item, piece_rotate, produce_result_validate, \
+    produce_result_finish_apportionment, produce_result_send_email
 
 from apps.orders.views import orders_page, show_order
 
@@ -34,7 +35,9 @@ urlpatterns = [
     path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),
     path("produce-del/<int:imagesize_id>/", produce_del, name="produce_del"),
     path("produce_result_nesting/<int:roll_id>/", produce_result_nesting, name="produce_result"),
-    path("produce_result_validate/<int:roll_id>/", produce_result_validate, name="produce_result"),
+    path("produce_result_validate/<int:roll_id>/", produce_result_validate, name="produce_validate"),
+    path("produce_finish_apportionment/", produce_result_finish_apportionment, name="produce_finish"),
+    path("produce_send_email/<int:roll_id>/", produce_result_send_email, name="produce_send"),
 
     path("item_edit/<int:item_id>/<int:size_id>/", item_edit, name="item_edit"),
     path("item-size-del/<int:item_id>/<int:size_id>/", item_size_del, name="item_size_del"),

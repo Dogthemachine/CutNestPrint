@@ -6,10 +6,14 @@ from django.conf import settings
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.orders.models import Orders, Rolls, ClothesInOrders
 from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm, ChooseRollForm
-from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND
+from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND, SENDTFIFF, GETPOSITION, TIFF2BACKGROUND, CUTWHITESPACE
+CUTWHITESPACE
 from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.template import loader
+from apps.orders.models import GlobalSettings
 
+import json
 import sys
 import os
 import re
@@ -200,7 +204,7 @@ def produce_result_nesting(request, roll_id):
     for item in ProducePage.objects.all():
         for piece in item.items_sizes.get_pieces():
             for i in range(item.amount):
-                tif_name = settings.MEDIA_RESULT_IMG + "/" + str(file_name) + "UUU" + ".tif"
+                tif_name = settings.MEDIA_RESULT_IMG + "/" + str(file_name) + ".tif"
                 shutil.copy(piece.detail.path, tif_name)
                 if piece.contour:
                     contour_name = settings.MEDIA_RESULT_IMG + "/" + str(file_name) + ".svg"
@@ -210,7 +214,14 @@ def produce_result_nesting(request, roll_id):
                     TIFF2SVG(piece.detail.path, save_svg_path)
                 file_name += 1
 
-    MAKEBACKGROUND(500, 146)
+    path_to_lust_order = MAKEBACKGROUND(500, 146)
+    globalsettings = GlobalSettings.objects.all()
+    if globalsettings:
+        globalsettings = globalsettings[0]
+    else:
+        globalsettings = GlobalSettings()
+    globalsettings.result_tif_path = path_to_lust_order
+    globalsettings.save()
 
     os.chdir("/Users/Dogthemachine/DeepNest/Deepnest")
     os.system("npm run start")
@@ -325,3 +336,43 @@ def piece_rotate(request, piece_id):
 
     else:
         return {"success": False}
+
+
+@json_view
+def produce_result_finish_apportionment(request):
+
+    if request.method == "POST":
+        if os.path.exists(settings.MEDIA_RESULT_CONTOUR + "/exports.json"):
+            # try:
+            file = open(settings.MEDIA_RESULT_CONTOUR + "/exports.json")
+            content = file.read()
+            json_content = json.loads(content)
+
+            gs = GlobalSettings.objects.all()[0]
+            result_tif_path = gs.result_tif_path
+            for file in os.listdir(settings.MEDIA_RESULT_IMG):
+                open_tiff_path = os.path.join(settings.MEDIA_RESULT_IMG, file)
+                name = file.split(".")[0]
+                if name:
+                    pos = GETPOSITION(json_content, int(name)-1)
+                    print("\n\n\n", "NAME= ", name, "ROT=", pos.rot, " X=", pos.x, " Y=", pos.y)
+                    TIFF2BACKGROUND(open_tiff_path, result_tif_path, pos.x, pos.y, pos.rot)
+            CUTWHITESPACE(result_tif_path)
+
+            t = loader.get_template('nest/apportionment.html')
+            c = {}
+            html = t.render(c, request)
+            # except:
+            #     print("NEA")
+
+    return {"success": True, "html": html}
+
+
+@json_view
+def produce_result_send_email(request, roll_id):
+
+    if request.method == "POST":
+        if os.path.exists(settings.MEDIA_RESULT_CONTOUR + "/exports.json"):
+            print("SENDING EMAIL")
+
+    return {"success": True}

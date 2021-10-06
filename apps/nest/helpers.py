@@ -1,4 +1,6 @@
-from PIL import Image, ImageDraw, ImageFilter, ImageChops
+from PIL import Image
+Image.MAX_IMAGE_PIXELS = 1000000000
+from PIL import ImageDraw, ImageFilter, ImageChops
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from email.mime.text import MIMEText
@@ -7,7 +9,6 @@ from svgwrite import Drawing
 from zipfile import ZipFile
 from potrace import Bitmap
 from numpy import asarray
-from PIL import Image
 import PIL.ImageOps
 import numpy as np
 import svgwrite
@@ -92,7 +93,7 @@ def TIFF2MASK(open_tiff_path):
     return mask
 
 
-def TIFF2BACKGROUND(open_tiff_path, background, x_position, y_position, rotation, image_name):
+def TIFF2BACKGROUND(open_tiff_path, background, x_position, y_position, rotation):
     # Reading image with Pillow
     img = Image.open(open_tiff_path)
     image_width, image_height = img.size
@@ -100,8 +101,9 @@ def TIFF2BACKGROUND(open_tiff_path, background, x_position, y_position, rotation
     mask = TIFF2MASK(open_tiff_path)
     mask = mask.resize((image_width, image_height), Image.ANTIALIAS)
     # Mixing image + mask + background
-    background.paste(img.rotate(rotation), (x_position,y_position), mask.rotate(rotation))
-    background.save(image_name)
+    workspace = Image.open(background)
+    workspace.paste(img.rotate(rotation), (x_position,y_position), mask.rotate(rotation))
+    workspace.save(background)
     # Clearing memory
     del img, background, mask, image_width, image_height
 
@@ -160,12 +162,14 @@ def MAKEBACKGROUND(width_in_cm, height_in_sm):
     svg_height_background = int(height_in_sm * 28.346)
     color = (0, 0, 0, 0)
     background = Image.new(mode, (width_background, height_background), color)
-    path_to_save_tif = settings.MEDIA_RESULT_ORDERS + "/" + str(datetime.datetime.now()) + ".tif"
+    path_to_save_tif = settings.MEDIA_RESULT_ORDERS + "/" + datetime.datetime.now().strftime("%m-%d-%Y-%H-%M-%S") + ".tif"
     background.save(path_to_save_tif)
     path_to_save_svg = settings.MEDIA_RESULT_CONTOUR + "/" + "BACKGROUND" + ".svg"
     dwg = svgwrite.Drawing(path_to_save_svg, profile='tiny')
     dwg.add(dwg.rect((10, 10), (svg_width_background, svg_height_background), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='none'))
     dwg.save()
+    print("\n\n\n", "width_background =", width_background, "height_background =", height_background)
+    return path_to_save_tif
 
 
 def TIFF2SVGCLOSECONTOURS(open_tiff_path):
@@ -178,3 +182,39 @@ def TIFF2SVGCLOSECONTOURS(open_tiff_path):
     img_contours = np.zeros(image.shape)
     cv2.drawContours(img_contours, contours, -1, (255, 255, 255), 5)
     cv2.imwrite('/Users/Dogthemachine/media/result_contour/contours.png', img_contours)
+
+
+def GETPOSITION(obj, id):
+
+    class Piece:
+        def __init__(self):
+            self.rot = 0
+            self.x = 0
+            self.y = 0
+
+    res = Piece()
+
+    def GETITNOW(obj, res, id):
+
+        svg_scale = 2.834645669291339
+
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, (dict, list)):
+                    GETITNOW(v, res, id)
+                elif k == "id" and v == id:
+                    res.rot = obj["rotation"]
+                    res.x = int(obj["x"] * svg_scale)
+                    res.y = int(obj["y"] * svg_scale)
+        elif isinstance(obj, list):
+            for item in obj:
+                GETITNOW(item, res, id)
+        return res
+
+    res = GETITNOW(obj, res, id)
+    return res
+
+
+
+
+

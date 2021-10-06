@@ -39,6 +39,7 @@ class Orders(models.Model):
     actual_cost = models.DecimalField(_("actual cost"), max_digits=5, decimal_places=2)
     date_of_manufacture = models.DateTimeField(_("date of manufacture"))
     paid = models.BooleanField(_("Paid or not"), default=False)
+    image_preview = models.FileField(upload_to="photos_orders/", blank=True)
 
     class Meta:
         ordering = ("added",)
@@ -63,4 +64,5 @@ class ClothesInOrders(models.Model):
 
 
 class GlobalSettings(models.Model):
-    this_order = models.ForeignKey(Orders, on_delete=models.CASCADE, default=None, blank=True)
+    result_tif_path = models.CharField(_("tif_path"), max_length=256)
+    jpeg_path = models.CharField(_("tif_path"), max_length=256)
