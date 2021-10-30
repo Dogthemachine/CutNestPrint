@@ -65,4 +65,4 @@ class ClothesInOrders(models.Model):
 
 class GlobalSettings(models.Model):
     result_tif_path = models.CharField(_("tif_path"), max_length=256)
-    jpeg_path = models.CharField(_("tif_path"), max_length=256)
+    jpeg_path = models.CharField(_("jpeg_path"), max_length=256)

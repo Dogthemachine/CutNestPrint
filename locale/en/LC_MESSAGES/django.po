@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-12 18:47+0300\n"
+"POT-Creation-Date: 2021-10-11 21:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,50 +16,48 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: apps/cats/models.py:6 apps/cats/models.py:19 apps/cats/models.py:31
 #: apps/cats/models.py:42 apps/nest/models.py:15 apps/nest/models.py:36
 #: apps/nest/models.py:54 apps/nest/models.py:70
 msgid "name"
-msgstr "Название"
+msgstr ""
 
 #: apps/cats/models.py:11 apps/cats/models.py:23 apps/cats/models.py:34
 #: apps/nest/models.py:20 apps/nest/models.py:40 apps/nest/models.py:57
 #: apps/nest/models.py:143
 msgid "sequence"
-msgstr "Количество"
+msgstr ""
 
 #: apps/cats/models.py:33 apps/nest/models.py:56
 msgid "description"
-msgstr "Описание"
+msgstr ""
 
 #: apps/cats/models.py:45 apps/nest/models.py:74 apps/orders/models.py:34
 msgid "added"
-msgstr "Добавлено"
+msgstr ""
 
 #: apps/nest/forms.py:11
 msgid "Item name"
-msgstr "Название"
+msgstr ""
 
 #: apps/nest/forms.py:12
 msgid "Fashion"
-msgstr "Фасон"
+msgstr ""
 
 #: apps/nest/forms.py:17 templates/nest/item_edit.html:32
 #: templates/nest/item_edit.html:105
 msgid "Add size"
-msgstr "Добавить размер"
+msgstr ""
 
 #: apps/nest/forms.py:21
 msgid "Select pieces"
-msgstr "Выбрать выкройки"
+msgstr ""
 
 #: apps/nest/forms.py:37
 msgid "Choose roll"
-msgstr "Выбрать рулон"
+msgstr ""
 
 #: apps/nest/models.py:14 apps/nest/models.py:35 apps/nest/models.py:53
 #: apps/nest/models.py:69
@@ -68,100 +66,100 @@ msgstr ""
 
 #: apps/nest/models.py:21 apps/nest/models.py:41
 msgid "showcase_displayed"
-msgstr "Отображать на витрине"
+msgstr ""
 
 #: apps/nest/models.py:27 apps/nest/models.py:28
 msgid "Categories of items"
-msgstr "Категории"
+msgstr ""
 
 #: apps/nest/models.py:45 apps/nest/models.py:46
 msgid "Fashions of items"
-msgstr "Фасоны"
+msgstr ""
 
 #: apps/nest/models.py:61 apps/nest/models.py:62
 msgid "Sizes of items"
-msgstr "Размеры"
+msgstr ""
 
 #: apps/nest/models.py:73
 msgid "count of pieces"
-msgstr "Количество"
+msgstr ""
 
 #: apps/nest/models.py:78 apps/nest/models.py:79
 msgid "items"
-msgstr "Изделие"
+msgstr ""
 
 #: apps/nest/models.py:93 apps/nest/models.py:94
 msgid "items sizes"
-msgstr "Изделие"
+msgstr ""
 
 #: apps/nest/models.py:122 apps/nest/models.py:123
 msgid "piece"
-msgstr "Выкройка"
+msgstr ""
 
 #: apps/nest/models.py:146 apps/nest/models.py:147 apps/orders/models.py:59
 #: apps/orders/models.py:60
 msgid "produce"
-msgstr "Заказ"
+msgstr ""
 
 #: apps/nest/views.py:235
 msgid "New Item"
-msgstr "Новое изделие"
+msgstr ""
 
 #: apps/orders/models.py:7 apps/orders/models.py:10 apps/orders/models.py:11
 msgid "material type"
-msgstr "Тип ткани"
+msgstr ""
 
 #: apps/orders/models.py:18
 msgid "index"
-msgstr "Индекс"
+msgstr ""
 
 #: apps/orders/models.py:20
 msgid "initially meters"
-msgstr "В начале было метров"
+msgstr ""
 
 #: apps/orders/models.py:21
 msgid "actual meters"
-msgstr "Метров на данный момент"
+msgstr ""
 
 #: apps/orders/models.py:22 apps/orders/models.py:40
 msgid "date of manufacture"
-msgstr "Дата изготовления"
+msgstr ""
 
 #: apps/orders/models.py:25 apps/orders/models.py:26
 msgid "rolls"
-msgstr "Рулоны"
+msgstr ""
 
 #: apps/orders/models.py:33
 msgid "coast rate"
-msgstr "Цена за метр"
+msgstr ""
 
 #: apps/orders/models.py:36
 msgid "amount of units"
-msgstr "Количество вещей"
+msgstr ""
 
 #: apps/orders/models.py:37
 msgid "amount of material"
-msgstr "Сколько ткани"
+msgstr ""
 
 #: apps/orders/models.py:38
 msgid "expected cost"
-msgstr "Предположительня стоимость"
+msgstr ""
 
 #: apps/orders/models.py:39
 msgid "actual cost"
-msgstr "Фактическая стоимость"
+msgstr ""
 
 #: apps/orders/models.py:41
 msgid "Paid or not"
-msgstr "Оплачен"
+msgstr ""
 
 #: apps/orders/models.py:46 apps/orders/models.py:47
 msgid "orders"
-msgstr "Заказы"
+msgstr ""
 
 #: apps/orders/models.py:55
 msgid "amount"
-msgstr "Количество"
+msgstr ""
 
 #: apps/orders/models.py:67 apps/orders/models.py:68
 msgid "tif_path"
@@ -171,64 +169,64 @@ msgstr ""
 #: templates/nest/items_list.html:5 templates/nest/new_item_page.html:5
 #: templates/nest/produce_page.html:5 templates/orders/show_order.html:5
 msgid "Making cuts for produce clothes"
-msgstr "Менеджер выкроек"
+msgstr ""
 
 #: templates/nest/item_edit.html:25 templates/nest/item_edit.html:98
 msgid "Change image"
-msgstr "Заменить картинку"
+msgstr ""
 
 #: templates/nest/item_edit.html:34 templates/nest/item_edit.html:107
 msgid "Save item"
-msgstr "Сохранить"
+msgstr ""
 
 #: templates/nest/item_edit.html:55
 msgid "Add piece"
-msgstr "Добавить выкройку"
+msgstr ""
 
 #: templates/nest/item_edit.html:60
 msgid "Delete size"
-msgstr "Удалить размер"
+msgstr ""
 
 #: templates/nest/item_edit.html:71
 msgid "Delete piece"
-msgstr "Удалить выкройку"
+msgstr ""
 
 #: templates/nest/item_edit.html:84
 msgid "Delete item"
-msgstr "Удалить изделие"
+msgstr ""
 
 #: templates/nest/items_list.html:28 templates/nest/produce_page.html:31
 #: templates/orders/show_order.html:38
 msgid "Size:"
-msgstr "Размер"
+msgstr ""
 
 #: templates/nest/items_list.html:30 templates/nest/produce_page.html:32
 msgid "In produce:"
-msgstr "В заказе"
+msgstr ""
 
 #: templates/nest/items_list.html:53
 msgid "Edit item"
-msgstr "Редактировать изделие"
+msgstr ""
 
 #: templates/nest/main_bar.html:6 templates/nest/main_page.html:12
 msgid "New item"
-msgstr "Новое изделие"
+msgstr ""
 
 #: templates/nest/main_bar.html:9
 msgid "Fashions"
-msgstr "Одежда"
+msgstr ""
 
 #: templates/nest/main_bar.html:12
 msgid "Orders"
-msgstr "Заказы"
+msgstr ""
 
 #: templates/nest/main_bar.html:15
 msgid "To produce"
-msgstr "Заказ"
+msgstr ""
 
 #: templates/nest/main_page.html:5
 msgid "Making cuts for pinting clothes"
-msgstr "Менеджер выкроек"
+msgstr ""
 
 #: templates/nest/main_page.html:15
 msgid "Make an order"
@@ -236,21 +234,19 @@ msgstr ""
 
 #: templates/nest/produce_page.html:47
 msgid "Pieces:  "
-msgstr "Деталей:  "
+msgstr ""
 
 #: templates/nest/produce_page.html:56
 msgid "Rotate piece"
-msgstr "Повернуть"
+msgstr ""
 
 #: templates/nest/produce_page.html:71
-#| msgid "In order:"
 msgid "Items in order:  "
-msgstr "Изделий в заказе:  "
+msgstr ""
 
 #: templates/nest/produce_page.html:74
-#| msgid "Pieces:  "
 msgid "Pieces in order:  "
-msgstr "Деталей:  "
+msgstr ""
 
 #: templates/nest/produce_page.html:74
 msgid " + background"
@@ -258,53 +254,52 @@ msgstr ""
 
 #: templates/nest/produce_page.html:83
 msgid "Make nesting"
-msgstr "Сделать раскладку"
+msgstr ""
 
 #: templates/nest/produce_page.html:84
 msgid "Finish apportionment"
-msgstr "Закончить раскладку"
+msgstr ""
 
 #: templates/nest/produce_page.html:85
-#| msgid "Validate nesting "
 msgid "Validate order"
-msgstr "Подтвердить заказ"
+msgstr ""
 
 #: templates/nest/produce_page.html:86
 msgid "Send to Urutov"
-msgstr "Отправить по почте"
+msgstr ""
 
 #: templates/orders/orders_page.html:5
 msgid "Show order"
-msgstr "Заказ"
+msgstr ""
 
 #: templates/orders/show_order.html:18
 msgid "Material:  "
-msgstr "Ткань:  "
+msgstr ""
 
 #: templates/orders/show_order.html:19
 msgid "Rate per meter:  "
-msgstr "Стоимость за метр:  "
+msgstr ""
 
 #: templates/orders/show_order.html:20
 msgid "Roll index:  "
-msgstr "Индекс рулона:  "
+msgstr ""
 
 #: templates/orders/show_order.html:21
 msgid "Amount of clothes:  "
-msgstr "Колличество изделий:  "
+msgstr ""
 
 #: templates/orders/show_order.html:22
 msgid "Amount of material:  "
-msgstr "Сколько ткани:  "
+msgstr ""
 
 #: templates/orders/show_order.html:23
 msgid "Cost:  "
-msgstr "Стоимость:  "
+msgstr ""
 
 #: templates/orders/show_order.html:24
 msgid "Date of manufacture:  "
-msgstr "Дата изготовления:  "
+msgstr ""
 
 #: templates/orders/show_order.html:39
 msgid "In order:"
-msgstr "В заказе:  "
+msgstr ""

@@ -50,7 +50,7 @@
                 {% for piece in item.items_sizes.get_pieces %}
                     <div class="card">
                         <div class="card-header">
-                            <img class=class="card-img-top" src="{{ MEDIA_URL }}{{ piece.image }}">
+                            <img class=class="card-img-top" id="cnp-card-piece-{{ piece.id }}" data-piece-image="{{ MEDIA_URL }}{{ piece.image }}" src="{{ MEDIA_URL }}{{ piece.image }}">
                         </div>
                         <div class="card-body">
                             <a class="btn btn-default btn-sm cnp-piece-rotate" data-piece-id="{{ piece.id }}"  href='#'>{% trans 'Rotate piece' %}</a>

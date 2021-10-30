@@ -47,7 +47,7 @@ $(document).ready(function() {
                 type: 'post',
                 success: function(data) {
                     if (data.success) {
-                        location.reload();
+                        $("#cnp-produce-amount-"+id_item_size).replaceWith("<span class='cnp-produce-amount' id='cnp-produce-amount-'" + id_item_size + ">" + data.amount + "</span>");
                     } else {
                     }
                 }
@@ -78,7 +78,8 @@ $(document).ready(function() {
             type: 'post',
             success: function(data) {
                 if (data.success) {
-                    location.reload();
+                    var piece_image = $(this).data('piece-image');
+                    $("#cnp-card-piece-"+piece_id).replaceWith("<img class='card-img-top' id='cnp-card-piece-" + piece_id + "' src='" + piece_image + "'>");
                 } else {
                 }
             }
@@ -141,6 +142,22 @@ $(document).ready(function() {
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                } else {
+                }
+            }
+        });
+   });
+
+   $('.cnp-delete-order').on('click', function() {
+
+        var id_order = $(this).data('order-id');
+
+        $.ajax({
+            url: '/delete_order/' + id_order + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                window.location.replace(window.location.protocol.toString() + "//" + window.location.host.toString() + "/orders/");
                 } else {
                 }
             }

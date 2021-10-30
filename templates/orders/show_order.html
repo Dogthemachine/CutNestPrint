@@ -16,12 +16,17 @@
 </div>
 
 <h3 class="col-12 mb-3">{% trans 'Material:  ' %}{{ order.roll.material_type }}</h3>
-<h3 class="col-12 mb-3">{% trans 'Rate per meter:  ' %}{{ order.cost_rates }}</h3>
-<h3 class="col-12 mb-3">{% trans 'Roll index:  ' %}{{ order.roll.id }}</h3>
+<!--<h3 class="col-12 mb-3">{% trans 'Rate per meter:  ' %}{{ order.cost_rates }}</h3>-->
+<!--<h3 class="col-12 mb-3">{% trans 'Roll index:  ' %}{{ order.roll.id }}</h3>-->
 <h3 class="col-12 mb-3">{% trans 'Amount of clothes:  ' %}{{ order.amount_of_units }}</h3>
-<h3 class="col-12 mb-3">{% trans 'Amount of material:  ' %}{{ order.amount_of_material }}</h3>
-<h3 class="col-12 mb-3">{% trans 'Cost:  ' %}{{ order.expected_cost }}</h3>
-<h3 class="col-12 mb-5">{% trans 'Date of manufacture:  ' %}{{ order.date_of_manufacture }}</h3>
+<h3 class="col-12 mb-3">{% trans 'Amount of material:  ' %}{{ order.amount_of_material }}{% trans ' meters' %}</h3>
+<h3 class="col-12 mb-3">{% trans 'Cost:  ' %}{{ order.expected_cost }}{% trans ' $' %}</h3>
+<!--<h3 class="col-12 mb-5">{% trans 'Date of manufacture:  ' %}{{ order.date_of_manufacture }}</h3>-->
+
+
+<div class="row justify-content-center align-items-center md-4">
+    <img src="{{ MEDIA_URL }}{{ order.image_preview }}" class="img-fluid p-3">
+</div>
 
  {% for item in clothes %}
     <div class="row">
@@ -44,5 +49,8 @@
    </div>
  {% endfor %}
 
+<div class="text-right">
+    <button class="btn btn-danger btn-block mb-4 cnp-delete-order" data-order-id="{{ order.id }}" href='#'>{% trans 'Delete order' %}</button>
+</div>
 
 {% endblock %}

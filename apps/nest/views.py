@@ -7,7 +7,6 @@ from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pi
 from apps.orders.models import Orders, Rolls, ClothesInOrders
 from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm, ChooseRollForm
 from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND, SENDTFIFF, GETPOSITION, TIFF2BACKGROUND, CUTWHITESPACE
-CUTWHITESPACE
 from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import loader
@@ -165,17 +164,25 @@ def produce_result_validate(request, roll_id):
 
         roll = get_object_or_404(Rolls, id=roll_id)
         new_order = Orders()
-        new_order.cost_rates = 3.2
+        new_order.cost_rates = 3.0
         new_order.roll = roll
         count_of_items = 0
         for item in ProducePage.objects.all():
             count_of_items += item.amount
         new_order.amount_of_units = count_of_items
-        new_order.amount_of_material = 0.0
-        new_order.expected_cost = 0.0
+        thepath = GlobalSettings.objects.all()[0]
+        image = Image.open(thepath.jpeg_path)
+        width, height = image.size
+        material_amount = width / 590.55
+        new_order.amount_of_material = round(material_amount, 2)
+        new_order.expected_cost = material_amount * new_order.cost_rates
         new_order.actual_cost = 0.0
         new_order.date_of_manufacture = datetime.datetime.now()
+        temp = BytesIO()
+        image.save(temp, "JPEG", quality=100)
+        new_order.image_preview = InMemoryUploadedFile(temp, None, thepath.jpeg_path, 'image/jpeg', sys.getsizeof(image), None)
         new_order.save()
+        temp.seek(0)
         for item in ProducePage.objects.all():
             new_unit = ClothesInOrders()
             new_unit.items_sizes = item.items_sizes
@@ -214,7 +221,7 @@ def produce_result_nesting(request, roll_id):
                     TIFF2SVG(piece.detail.path, save_svg_path)
                 file_name += 1
 
-    path_to_lust_order = MAKEBACKGROUND(500, 146)
+    path_to_lust_order = MAKEBACKGROUND(1000, 146)
     globalsettings = GlobalSettings.objects.all()
     if globalsettings:
         globalsettings = globalsettings[0]
@@ -222,6 +229,7 @@ def produce_result_nesting(request, roll_id):
         globalsettings = GlobalSettings()
     globalsettings.result_tif_path = path_to_lust_order
     globalsettings.save()
+    print('\n\n\n', globalsettings.result_tif_path, '\n\n\n')
 
     os.chdir("/Users/Dogthemachine/DeepNest/Deepnest")
     os.system("npm run start")
@@ -249,6 +257,7 @@ def add_new_item(request):
 def produce_add(request, imagesize_id, amount):
 
     if request.method == "POST":
+
         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
         producepage = ProducePage.objects.filter(items_sizes=imagesize)
         if producepage:
@@ -259,7 +268,8 @@ def produce_add(request, imagesize_id, amount):
             producepage.amount = amount
             producepage.items_sizes = imagesize
         producepage.save()
-        return {"success": True}
+        return {"success": True,
+                "amount": producepage.amount}
 
     else:
         return {"success": False}
@@ -342,28 +352,41 @@ def piece_rotate(request, piece_id):
 def produce_result_finish_apportionment(request):
 
     if request.method == "POST":
+        c = {}
         if os.path.exists(settings.MEDIA_RESULT_CONTOUR + "/exports.json"):
-            # try:
-            file = open(settings.MEDIA_RESULT_CONTOUR + "/exports.json")
-            content = file.read()
-            json_content = json.loads(content)
-
             gs = GlobalSettings.objects.all()[0]
             result_tif_path = gs.result_tif_path
-            for file in os.listdir(settings.MEDIA_RESULT_IMG):
-                open_tiff_path = os.path.join(settings.MEDIA_RESULT_IMG, file)
-                name = file.split(".")[0]
-                if name:
-                    pos = GETPOSITION(json_content, int(name)-1)
-                    print("\n\n\n", "NAME= ", name, "ROT=", pos.rot, " X=", pos.x, " Y=", pos.y)
-                    TIFF2BACKGROUND(open_tiff_path, result_tif_path, pos.x, pos.y, pos.rot)
-            CUTWHITESPACE(result_tif_path)
+            print('\n\n\n', result_tif_path, '\n\n\n')
+            try:
+                file = open(settings.MEDIA_RESULT_CONTOUR + "/exports.json")
+                content = file.read()
+                json_content = json.loads(content)
+                for file in os.listdir(settings.MEDIA_RESULT_IMG):
+                    open_tiff_path = os.path.join(settings.MEDIA_RESULT_IMG, file)
+                    name = file.split(".")[0] + ".svg"
+                    if name:
+                        pos = GETPOSITION(json_content, name)
+                        print("\n\n\n", "NAME= ", name, "ROT=", pos.rot, " X=", pos.x, " Y=", pos.y)
+                        TIFF2BACKGROUND(open_tiff_path, result_tif_path, pos.x, pos.y, pos.rot)
+            except:
+                print("NEA")
+            im = Image.open(result_tif_path)
+            im = CUTWHITESPACE(im)
+            save_jpeg_path = os.path.splitext(result_tif_path)[0] + ".jpg"
+            im.save(result_tif_path, "TIFF")
+            width, height = im.size
+            width = int(width / 2)
+            height = int(height / 2)
+            size = width, height
+            im.thumbnail(size, Image.ANTIALIAS)
+            im.save(save_jpeg_path, "JPEG")
+            path_to_show = "result_orders/" + save_jpeg_path.split("/")[-1]
+            gs.jpeg_path = save_jpeg_path
+            gs.save()
+            c = {"image": path_to_show}
+        t = loader.get_template('nest/apportionment.html')
+        html = t.render(c, request)
 
-            t = loader.get_template('nest/apportionment.html')
-            c = {}
-            html = t.render(c, request)
-            # except:
-            #     print("NEA")
 
     return {"success": True, "html": html}
 

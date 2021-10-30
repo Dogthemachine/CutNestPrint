@@ -22,7 +22,7 @@ from apps.nest.views import produce_page, fashions_page, items_list, produce_add
     item_size_del, piece_del, produce_result_nesting, add_new_item, delete_item, piece_rotate, produce_result_validate, \
     produce_result_finish_apportionment, produce_result_send_email
 
-from apps.orders.views import orders_page, show_order
+from apps.orders.views import orders_page, show_order, delete_order
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,7 +46,8 @@ urlpatterns = [
     path("delete_item/<int:item_id>/", delete_item, name="delete_item"),
 
     path("orders/", orders_page, name="orders_page"),
-    path("orders/<int:order_id>/", show_order, name="show_order")
+    path("orders/<int:order_id>/", show_order, name="show_order"),
+    path("delete_order/<int:order_id>/", delete_order, name="delete_order")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

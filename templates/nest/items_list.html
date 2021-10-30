@@ -27,7 +27,8 @@
               <div class="col-6 h4">
                   {% trans 'Size:' %} {{ size.sizes.name }}
                   {% if size.get_produce_amount %}
-                      <span class="cnp-produce-amount">{% trans 'In produce:' %} {{ size.get_produce_amount }}</span>
+                      <span class="cnp-produce-amount">{% trans 'In produce:' %}</span>
+                      <span class="cnp-produce-amount" id="cnp-produce-amount-{{ size.id }}">{{ size.get_produce_amount }}</span>
                   {% endif %}
               </div>
               <div class=""col-2">
