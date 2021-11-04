@@ -49,8 +49,8 @@
                 <div class="row">
                 {% for piece in item.items_sizes.get_pieces %}
                     <div class="card">
-                        <div class="card-header">
-                            <img class=class="card-img-top" id="cnp-card-piece-{{ piece.id }}" data-piece-image="{{ MEDIA_URL }}{{ piece.image }}" src="{{ MEDIA_URL }}{{ piece.image }}">
+                        <div class="card-header"  id="cnp-piece-block-{{ piece.id }}">
+                            <img class=class="card-img-top" id="cnp-card-piece-{{ piece.id }}" src="{{ MEDIA_URL }}{{ piece.image }}">
                         </div>
                         <div class="card-body">
                             <a class="btn btn-default btn-sm cnp-piece-rotate" data-piece-id="{{ piece.id }}"  href='#'>{% trans 'Rotate piece' %}</a>
@@ -82,8 +82,8 @@
 <div class="text-center mb-4 mt-5">
     <a class="btn  btn-success btn-lg mr-5 cnp-produce-result-nesting" href='#'>{% trans 'Make nesting' %}</a>
     <a class="btn  btn-success btn-lg mr-5 cnp-produce-finish-apportionment" href='#'>{% trans 'Finish apportionment' %}</a>
-    <a class="btn  btn-success btn-lg mr-5 cnp-produce-result-validate" href='#'>{% trans 'Validate order' %}</a>
     <a class="btn  btn-success btn-lg mr-5 cnp-produce-send-email" href='#'>{% trans 'Send to Urutov' %}</a>
+    <a class="btn  btn-success btn-lg mr-5 cnp-produce-result-validate" href='#'>{% trans 'Validate order' %}</a>
 </div>
 
 

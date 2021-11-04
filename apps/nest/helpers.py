@@ -5,18 +5,14 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from email.mime.text import MIMEText
 from django.conf import settings
-from zipfile import ZipFile
-from potrace import Bitmap
-from numpy import asarray
-import drawSvg as draw
 import PIL.ImageOps
 import numpy as np
-import svgwrite
 import datetime
+import zipfile
 import smtplib
 import cv2
-import os
 import re
+import os
 
 
 def TIFF2SVG(open_tiff_path, save_svg_path):
@@ -101,31 +97,26 @@ def GETMATIREALAMOUNT(open_final_tiff_path):
     return material_amount
 
 
-def SENDTFIFF(password, from_address, to_address, open_final_tiff_path):
-    # make a name for new zip file
-    zip_file_path = re.findall('[/].*[.]', open_final_tiff_path)[0] + "zip"
-    # make an ZipFile object
-    sanding_file = ZipFile(zip_file_path, 'w')
-    # add tiff file to zip
-    sanding_file.write(open_final_tiff_path)
-    # close
-    sanding_file.close()
-    # create message object instance
+def SENDFILE(password, from_address, to_address, massage_text):
     msg = MIMEMultipart()
     # setup the parameters of the message
-    password = password
     msg['From'] = from_address
     msg['To'] = to_address
-    msg['Subject'] = "Photos"
+    msg['Subject'] = "New order from Catcult"
     # attach image to message body
-    msg.attach(MIMEImage(zip_file_path("file").read()))
+    text = MIMEText(massage_text)
+    msg.attach(text)
+    # msg.attach(image)
     # create server
-    server = smtplib.SMTP('smtp.gmail.com: 587')
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
     server.starttls()
+    server.ehlo()
     # Login Credentials for sending the mail
     server.login(msg['From'], password)
     # send the message via the server.
-    server.sendmail(msg['From'], msg['To'], msg.as_string())
+    server.sendmail(msg['From'], msg['To'], msg.as_string())  # or msg.as_bytes()
+    # server.sendmail(msg['From'], msg['To'], msg.as_string())
     server.quit()
 
 

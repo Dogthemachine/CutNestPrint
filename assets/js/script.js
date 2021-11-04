@@ -78,8 +78,7 @@ $(document).ready(function() {
             type: 'post',
             success: function(data) {
                 if (data.success) {
-                    var piece_image = $(this).data('piece-image');
-                    $("#cnp-card-piece-"+piece_id).replaceWith("<img class='card-img-top' id='cnp-card-piece-" + piece_id + "' src='" + piece_image + "'>");
+                    $("#cnp-piece-block-"+piece_id).html(data.html)
                 } else {
                 }
             }

@@ -6,23 +6,24 @@ from django.conf import settings
 from apps.nest.models import Fashions, Items, ItemsSizes, ProducePage, Sizes, Pieces
 from apps.orders.models import Orders, Rolls, ClothesInOrders
 from apps.nest.forms import ItemForm, SizeForm, PieceForm, AvatarForm, ChooseRollForm
-from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND, SENDTFIFF, GETPOSITION, TIFF2BACKGROUND, CUTWHITESPACE
+from apps.nest.helpers import TIFF2SVG, MAKEBACKGROUND, SENDFILE, GETPOSITION, TIFF2BACKGROUND, CUTWHITESPACE
 from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import loader
 from apps.orders.models import GlobalSettings
 
+import dropbox
 import json
 import sys
 import os
-import re
 import random
 import string
 import shutil
 from io import BytesIO
 import datetime
 from PIL import Image
-import subprocess
+import zipfile
+
 
 def main_page(request):
 
@@ -342,7 +343,13 @@ def piece_rotate(request, piece_id):
         os.remove(nameimg2delete)
         temp.seek(0)
 
-        return {"success": True}
+        c = {"piece": piece}
+        t = loader.get_template('nest/piece.html')
+        html = t.render(c, request)
+
+        return {"success": True,
+                "html": html
+                }
 
     else:
         return {"success": False}
@@ -369,7 +376,7 @@ def produce_result_finish_apportionment(request):
                         print("\n\n\n", "NAME= ", name, "ROT=", pos.rot, " X=", pos.x, " Y=", pos.y)
                         TIFF2BACKGROUND(open_tiff_path, result_tif_path, pos.x, pos.y, pos.rot)
             except:
-                print("NEA")
+                pass
             im = Image.open(result_tif_path)
             im = CUTWHITESPACE(im)
             save_jpeg_path = os.path.splitext(result_tif_path)[0] + ".jpg"
@@ -396,6 +403,55 @@ def produce_result_send_email(request, roll_id):
 
     if request.method == "POST":
         if os.path.exists(settings.MEDIA_RESULT_CONTOUR + "/exports.json"):
+
+            # make path to lust order/tiff
+            globalsettings = GlobalSettings.objects.all()
+            if globalsettings:
+                globalsettings = globalsettings[0]
+            path_to_lust_order_tif = globalsettings.result_tif_path
+            # make a name for new zip file
+            zip_file_path = settings.MEDIA_RESULT_IMG + "/one_more.zip"
+            # make an ZipFile object
+            zipFile = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
+            # add tiff file to zip
+            zipFile.write(path_to_lust_order_tif)
+            # close
+            zipFile.close()
+
+            class TransferData:
+                def __init__(self, access_token):
+                    self.access_token = access_token
+
+                def upload_file(self, file_from, file_to):
+                    """upload a file to Dropbox using API v2"""
+                    dbx = dropbox.Dropbox(self.access_token)
+                    with open(file_from, 'rb') as f:
+                        dbx.files_upload(f.read(), file_to)
+
+            def main():
+                access_token = '2HHk-EYa2tQAAAAAAAAAAS6m-xE3n5XvRSCj-nQ-T5M7Kxx8hBrpwkaHseaK9D0_'
+                transferData = TransferData(access_token)
+                dbx = dropbox.Dropbox(access_token)
+                # The full path to upload the file to, including the file name
+                file_to = '/CNP/one_more.zip'
+                # Delete old file from Dropbox
+                try:
+                    dbx.files_delete(file_to)
+                except:
+                    pass
+                # API v2
+                transferData.upload_file(zip_file_path, file_to)
+                # Create sheared link for file?
+                shared_link_metadata = dbx.sharing_create_shared_link_with_settings("/CNP/one_more.zip")
+                return shared_link_metadata.url
+
+            message_text = main()
+
+            # making massage
             print("SENDING EMAIL")
+            password = "Bonanzzza789"
+            from_address = "catcult.club@gmail.com"
+            to_address = "danileyko@gmail.com"
+            SENDFILE(password, from_address, to_address, message_text)
 
     return {"success": True}
