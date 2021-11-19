@@ -451,7 +451,7 @@ def produce_result_send_email(request, roll_id):
             print("SENDING EMAIL")
             password = "Bonanzzza789"
             from_address = "catcult.club@gmail.com"
-            to_address = "danileyko@gmail.com"
+            to_address = "uabitex@gmail.com"
             SENDFILE(password, from_address, to_address, message_text)
 
     return {"success": True}
