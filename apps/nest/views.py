@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import loader
 from apps.orders.models import GlobalSettings
+from sys import platform
 
 import dropbox
 import json
@@ -232,8 +233,9 @@ def produce_result_nesting(request, roll_id):
     globalsettings.save()
     print('\n\n\n', globalsettings.result_tif_path, '\n\n\n')
 
-    os.chdir("/Users/Dogthemachine/DeepNest/Deepnest")
-    os.system("npm run start")
+    if platform == "darwin":
+        os.chdir("/Users/Dogthemachine/DeepNest/Deepnest")
+        os.system("npm run start")
 
     return {"success": True}
 
