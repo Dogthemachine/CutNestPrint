@@ -16,7 +16,6 @@ class SizeForm(forms.Form):
     SIZES = [(size.id, size.name) for size in Sizes.objects.all()]
     size = forms.ChoiceField(label=_('Add size'), widget=forms.Select, choices=SIZES)
 
-
 class PieceForm(forms.Form):
     detail = forms.FileField(label=_('Select pieces'), widget=forms.ClearableFileInput(attrs={'multiple': True}))
 

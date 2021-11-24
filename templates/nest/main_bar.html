@@ -12,6 +12,6 @@
     <a class="btn btn-default btn-lg" href="{% url 'orders_page' %}">{% trans 'Orders' %}</a>
   </div>
    <div class="form-inline my-2 my-lg-0">
-    <a class="btn btn-success btn-lg" href="{% url 'produce_page' %}"><span class="badge badge-light">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
+    <a class="btn btn-success btn-lg" href="{% url 'produce_page' %}"><span class="badge badge-light" id="total-amount">{% get_produce_amount %}</span> {% trans 'To produce' %}</a>
   </div>
 </nav>

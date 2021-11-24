@@ -101,7 +101,6 @@ def item_edit(request, item_id, size_id):
                 item.name = name
                 item.fashions = fashion
                 item.save()
-            return redirect('item_edit', item_id, 0)
             size_form = SizeForm()
             piece_form = PieceForm()
             avatar_form = AvatarForm()
@@ -114,9 +113,9 @@ def item_edit(request, item_id, size_id):
                 if not ItemsSizes.objects.filter(items=item, sizes=size):
                     item_size = ItemsSizes(items=item, sizes=size)
                     item_size.save()
-                return redirect('item_edit', item_id, 0)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             piece_form = PieceForm()
+            avatar_form = AvatarForm()
 
         if size_id != 0 and 'piece' in request.POST or 'add_piece' in request.POST:
             piece_form = PieceForm(request.POST, request.FILES)
@@ -128,10 +127,9 @@ def item_edit(request, item_id, size_id):
                         item_size = get_object_or_404(ItemsSizes, id=size_id)
                         p = Pieces(items_sizes=item_size, detail=f)
                         p.save()
-                return redirect('item_edit', item_id, 0)
-                # piece_form.save(size_id)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
+            avatar_form = AvatarForm()
 
         if 'change_avatar' in request.POST:
             avatar_form = AvatarForm(request.POST, request.FILES)
@@ -149,7 +147,6 @@ def item_edit(request, item_id, size_id):
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
             piece_form = PieceForm()
-            avatar_form = AvatarForm()
 
     else:
         item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
@@ -275,8 +272,12 @@ def produce_add(request, imagesize_id, amount):
             producepage.amount = amount
             producepage.items_sizes = imagesize
         producepage.save()
+        total_amount = 0
+        for produce in ProducePage.objects.all():
+            total_amount += produce.amount
         return {"success": True,
-                "amount": producepage.amount}
+                "amount": producepage.amount,
+                "total_amount": total_amount}
 
     else:
         return {"success": False}

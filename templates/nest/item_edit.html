@@ -25,16 +25,20 @@
                   <button class="btn btn-primary btn-sm" name="change_avatar" type="submit">{% trans 'Change image' %}</button>
               </form>
             </div>
-            <div class="col-12">
+            <div class="col-6">
               <form method="POST">{% csrf_token %}
-                  {{ item_form.as_p }}
                   {{ size_form }}
                   <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
-                  <div class="text-right">
-                    <button class="btn btn-primary btn-l" name="edit_item" type="submit">{% trans 'Save item' %}</button>
-                  </div>
               </form>
             </div>
+
+             <div class="col-6">
+              <form method="POST">{% csrf_token %}
+                  {{ item_form.as_p }}
+                    <button class="btn btn-primary btn-sm" name="edit_item" type="submit">{% trans 'Save item' %}</button>
+              </form>
+            </div>
+
 
         </div>
     </div>
@@ -89,21 +93,3 @@
 {% block script %}
     <script src="{{ STATIC_URL }}js/item_edit_script.js?id=02042021"></script>
 {% endblock %}
-
-
-
-<div class="col-12 mb-3">
-      <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-          {{ avatar_form.as_p }}
-          <button class="btn btn-primary btn-sm" name="change_avatar" type="submit">{% trans 'Change image' %}</button>
-      </form>
-    </div>
-    <div class="col-12">
-      <form method="POST">{% csrf_token %}
-          {{ item_form.as_p }}
-          {{ size_form }}
-          <button class="btn btn-primary btn-sm" name="add_size" type="submit">{% trans 'Add size' %}</button>
-          <div class="text-right">
-            <button class="btn btn-primary btn-l" name="edit_item" type="submit">{% trans 'Save item' %}</button>
-          </div>
-      </form>
