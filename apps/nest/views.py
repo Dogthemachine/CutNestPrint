@@ -101,8 +101,10 @@ def item_edit(request, item_id, size_id):
                 item.name = name
                 item.fashions = fashion
                 item.save()
+            return redirect('item_edit', item_id, 0)
             size_form = SizeForm()
             piece_form = PieceForm()
+            avatar_form = AvatarForm()
 
         if 'size' in request.POST:
             size_form = SizeForm(request.POST)
@@ -112,6 +114,7 @@ def item_edit(request, item_id, size_id):
                 if not ItemsSizes.objects.filter(items=item, sizes=size):
                     item_size = ItemsSizes(items=item, sizes=size)
                     item_size.save()
+                return redirect('item_edit', item_id, 0)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             piece_form = PieceForm()
 
@@ -145,6 +148,7 @@ def item_edit(request, item_id, size_id):
                 return redirect('item_edit', item_id, 0)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
+            piece_form = PieceForm()
             avatar_form = AvatarForm()
 
     else:
@@ -175,7 +179,7 @@ def produce_result_validate(request, roll_id):
         thepath = GlobalSettings.objects.all()[0]
         image = Image.open(thepath.jpeg_path)
         width, height = image.size
-        material_amount = width / 590.55
+        material_amount = width / 2952.75
         new_order.amount_of_material = round(material_amount, 2)
         new_order.expected_cost = material_amount * new_order.cost_rates
         new_order.actual_cost = 0.0
