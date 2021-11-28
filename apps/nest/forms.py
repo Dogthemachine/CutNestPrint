@@ -13,15 +13,29 @@ class ItemForm(forms.Form):
 
 
 class SizeForm(forms.Form):
+    # SIZES = []
+    # for item in [(size.id, size.name) for size in Sizes.objects.all()]:
+    #     SIZES.append(item[1])
+    # SIZES = list(set(SIZES))
     SIZES = [(size.id, size.name) for size in Sizes.objects.all()]
     size = forms.ChoiceField(label=_('Add size'), widget=forms.Select, choices=SIZES)
 
+
+# class SizeForm(forms.Form):
+#     size = forms.ChoiceField(label=_('Add size'), widget=forms.Select)
+#
+#     def init(self, *args, **kwargs):
+#         if 'fashion_id' in kwargs:
+#             fashion_id = kwargs.pop('fashion_id')
+#         else:
+#             fashion_id = 0
+#         super(SizeForm, self).init(*args, **kwargs)
+#         if fashion_id > 0:
+#             self.fields['size'].choices = [(size.id, size.name) for size in Sizes.objects.filter(fachion__id=fashion_id)]
+
+
 class PieceForm(forms.Form):
     detail = forms.FileField(label=_('Select pieces'), widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
-
-# class AvatarForm(forms.Form):
-#     image = forms.FileField(label=_('Item image'), widget=forms.ClearableFileInput())
 
 
 class AvatarForm(forms.ModelForm):

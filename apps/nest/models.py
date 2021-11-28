@@ -6,8 +6,6 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 from io import BytesIO
 import sys
-import random
-import string
 
 
 class Categories(models.Model):

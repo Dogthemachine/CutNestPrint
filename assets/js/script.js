@@ -47,7 +47,7 @@ $(document).ready(function() {
                 type: 'post',
                 success: function(data) {
                     if (data.success) {
-                        $("#cnp-produce-amount-"+id_item_size).replaceWith("<span class='cnp-produce-amount' id='cnp-produce-amount-'" + id_item_size + ">" + data.amount + "</span>");
+                        $("#cnp-produce-amount-"+id_item_size).replaceWith("<span class='cnp-produce-amount' id='cnp-produce-amount-" + id_item_size + "'>" + data.amount + "</span>");
                         $("#total-amount").replaceWith('<span class="badge badge-light" id="total-amount">' + data.total_amount + '</span>');
                     } else {
                     }
@@ -59,16 +59,20 @@ $(document).ready(function() {
     $('.cnp-produce-del').on('click', function() {
 
         var id_item_size = $(this).data('item_size-id');
-        $.ajax({
-            url: '/produce-del/' + id_item_size + '/',
-            type: 'post',
-            success: function(data) {
-                if (data.success) {
-                    location.reload();
-                } else {
+        var amount = $('#produce-amount-'+id_item_size).val();
+        if (amount != '') {
+            $.ajax({
+                url: '/produce-del/' + id_item_size + '/' + amount + '/',
+                type: 'post',
+                success: function(data) {
+                    if (data.success) {
+                        $("#cnp-produce-amount-"+id_item_size).replaceWith("<span class='cnp-produce-amount' id='cnp-produce-amount-" + id_item_size + "'>" + data.amount + "</span>");
+                        $("#total-amount").replaceWith('<span class="badge badge-light" id="total-amount">' + data.total_amount + '</span>');
+                    } else {
+                    }
                 }
-            }
-        });
+            });
+        };
     });
 
     $('.cnp-piece-rotate').on('click', function() {

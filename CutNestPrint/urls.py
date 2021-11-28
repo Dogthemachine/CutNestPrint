@@ -33,7 +33,7 @@ urlpatterns = [
 
     path("produce/", produce_page, name="produce_page"),
     path("produce-add/<int:imagesize_id>/<int:amount>/", produce_add, name="produce_add"),
-    path("produce-del/<int:imagesize_id>/", produce_del, name="produce_del"),
+    path("produce-del/<int:imagesize_id>/<int:amount>/", produce_del, name="produce_del"),
     path("produce_result_nesting/<int:roll_id>/", produce_result_nesting, name="produce_result"),
     path("produce_result_validate/<int:roll_id>/", produce_result_validate, name="produce_validate"),
     path("produce_finish_apportionment/", produce_result_finish_apportionment, name="produce_finish"),

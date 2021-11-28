@@ -179,5 +179,3 @@ def CUTWHITESPACE(im):
     bbox = diff.getbbox()
     if bbox:
         return im.crop(bbox)
-
-

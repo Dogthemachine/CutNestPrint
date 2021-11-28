@@ -284,15 +284,45 @@ def produce_add(request, imagesize_id, amount):
 
 
 @json_view
-def produce_del(request, imagesize_id):
+def produce_del(request, imagesize_id, amount):
 
     if request.method == "POST":
+
         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
-        ProducePage.objects.filter(items_sizes=imagesize).delete()
-        return render(
-            request,
-            "nest/items_list.html", {'items': items},
-        )
+        producepage = ProducePage.objects.filter(items_sizes=imagesize)
+        if producepage:
+            producepage = producepage[0]
+            if amount > producepage.amount:
+                producepage.amount = 0
+            else:
+                producepage.amount -= amount
+        else:
+            producepage = ProducePage()
+            producepage.amount = amount
+            producepage.items_sizes = imagesize
+        producepage.save()
+        total_amount = 0
+        for produce in ProducePage.objects.all():
+            total_amount += produce.amount
+        return {"success": True,
+                "amount": producepage.amount,
+                "total_amount": total_amount}
+
+    else:
+        return {"success": False}
+
+
+
+# @json_view
+# def produce_del(request, imagesize_id):
+#
+#     if request.method == "POST":
+#         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
+#         ProducePage.objects.filter(items_sizes=imagesize).delete()
+#         return render(
+#             request,
+#             "nest/items_list.html", {'items': items},
+#         )
 
 
 @json_view
