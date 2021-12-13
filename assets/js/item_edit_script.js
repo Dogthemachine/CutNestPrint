@@ -9,7 +9,7 @@ $(document).ready(function() {
             type: 'post',
             success: function(data) {
                 if (data.success) {
-                    location.reload();
+//                    location.reload();
                 } else {
                 }
             }

@@ -92,6 +92,7 @@ def item_edit(request, item_id, size_id):
     item = get_object_or_404(Items, id=item_id)
 
     if request.method == 'POST':
+        print('\n\n\n', request.POST)
         if 'name' in request.POST:
             item_form = ItemForm(request.POST)
             if item_form.is_valid():
@@ -101,9 +102,11 @@ def item_edit(request, item_id, size_id):
                 item.name = name
                 item.fashions = fashion
                 item.save()
+                return redirect('item_edit', item_id, 0)
             size_form = SizeForm()
             piece_form = PieceForm()
             avatar_form = AvatarForm()
+
 
         if 'size' in request.POST:
             size_form = SizeForm(request.POST)
@@ -113,6 +116,7 @@ def item_edit(request, item_id, size_id):
                 if not ItemsSizes.objects.filter(items=item, sizes=size):
                     item_size = ItemsSizes(items=item, sizes=size)
                     item_size.save()
+                return redirect('item_edit', item_id, 0)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             piece_form = PieceForm()
             avatar_form = AvatarForm()
@@ -127,6 +131,7 @@ def item_edit(request, item_id, size_id):
                         item_size = get_object_or_404(ItemsSizes, id=size_id)
                         p = Pieces(items_sizes=item_size, detail=f)
                         p.save()
+                return redirect('item_edit', item_id, 0)
             item_form = ItemForm(initial={'name': item.name, 'fashion': item.fashions.id})
             size_form = SizeForm()
             avatar_form = AvatarForm()
@@ -312,19 +317,6 @@ def produce_del(request, imagesize_id, amount):
         return {"success": False}
 
 
-
-# @json_view
-# def produce_del(request, imagesize_id):
-#
-#     if request.method == "POST":
-#         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
-#         ProducePage.objects.filter(items_sizes=imagesize).delete()
-#         return render(
-#             request,
-#             "nest/items_list.html", {'items': items},
-#         )
-
-
 @json_view
 def item_size_del(request, item_id, size_id):
 
@@ -332,6 +324,7 @@ def item_size_del(request, item_id, size_id):
         item = get_object_or_404(Items, id=item_id)
         size = get_object_or_404(Sizes, id=size_id)
         ItemsSizes.objects.filter(items=item, sizes=size).delete()
+        print('\n\n\n', "item_size_delitem_size_delitem_size_delitem_size_del")
         return {"success": True}
 
     else:
