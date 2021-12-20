@@ -370,7 +370,7 @@ def piece_rotate(request, piece_id):
         img = Image.open(piece.detail.path)
         img = img.rotate(90, expand=True)
         temp = BytesIO()
-        img.save(temp, "TIFF", quality=100)
+        img.save(temp, "TIFF")
         piece.detail = InMemoryUploadedFile(temp, None, piece.detail.path, 'image/tiff', sys.getsizeof(temp), None)
         piece.save()
         os.remove(namedet2delete)
