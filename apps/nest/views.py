@@ -269,6 +269,7 @@ def produce_add(request, imagesize_id, amount):
 
         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
         producepage = ProducePage.objects.filter(items_sizes=imagesize)
+        print("VIEVE")
         if producepage:
             producepage = producepage[0]
             producepage.amount += amount
@@ -305,7 +306,10 @@ def produce_del(request, imagesize_id, amount):
             producepage = ProducePage()
             producepage.amount = amount
             producepage.items_sizes = imagesize
-        producepage.save()
+        if producepage.amount == 0:
+            producepage.delete()
+        else:
+            producepage.save()
         total_amount = 0
         for produce in ProducePage.objects.all():
             total_amount += produce.amount

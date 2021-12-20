@@ -68,6 +68,9 @@ $(document).ready(function() {
                     if (data.success) {
                         $("#cnp-produce-amount-"+id_item_size).replaceWith("<span class='cnp-produce-amount' id='cnp-produce-amount-" + id_item_size + "'>" + data.amount + "</span>");
                         $("#total-amount").replaceWith('<span class="badge badge-light" id="total-amount">' + data.total_amount + '</span>');
+                        if (data.amount == 0) {
+                        location.reload();
+                        };
                     } else {
                     }
                 }
