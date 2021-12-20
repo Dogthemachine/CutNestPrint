@@ -181,9 +181,12 @@ def produce_result_validate(request, roll_id):
         thepath = GlobalSettings.objects.all()[0]
         image = Image.open(thepath.jpeg_path)
         width, height = image.size
+        width_in_meters = round(width / 2952.75, 2)
+        height_in_meters = round(height / 2952.75, 2)
+        material_square = width_in_meters * height_in_meters
         material_amount = width / 2952.75
         new_order.amount_of_material = round(material_amount, 2)
-        new_order.expected_cost = material_amount * new_order.cost_rates
+        new_order.expected_cost = material_square * new_order.cost_rates
         new_order.actual_cost = 0.0
         new_order.date_of_manufacture = datetime.datetime.now()
         temp = BytesIO()
