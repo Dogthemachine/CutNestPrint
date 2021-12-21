@@ -194,6 +194,11 @@ def produce_result_validate(request, roll_id):
         new_order.image_preview = InMemoryUploadedFile(temp, None, thepath.jpeg_path, 'image/jpeg', sys.getsizeof(image), None)
         new_order.save()
         temp.seek(0)
+        before_order = float(roll.actual_meters)
+        after_order = before_order - width_in_meters
+        after_order = round(after_order, 2)
+        roll.actual_meters = after_order
+        roll.save()
         for item in ProducePage.objects.all():
             new_unit = ClothesInOrders()
             new_unit.items_sizes = item.items_sizes
@@ -272,7 +277,6 @@ def produce_add(request, imagesize_id, amount):
 
         imagesize = get_object_or_404(ItemsSizes, id=imagesize_id)
         producepage = ProducePage.objects.filter(items_sizes=imagesize)
-        print("VIEVE")
         if producepage:
             producepage = producepage[0]
             producepage.amount += amount
